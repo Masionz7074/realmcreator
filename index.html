@@ -11,30 +11,37 @@
     <header>
         <div class="header-container">
             <div class="logo">Realm Creator</div>
+            <!-- Music Player Controls -->
+            <div class="music-player-controls">
+                <button id="prev-song" class="clickable-element player-button"><</button>
+                <button id="next-song" class="clickable-element player-button">></button>
+            </div>
             <nav>
                 <ul>
-                    <li><a href="#" class="nav-link clickable-element">Home</a></li>
-                    <li><a href="#" class="nav-link clickable-element">Download</a></li>
+                    <!-- Updated href for hash navigation -->
+                    <li><a href="#home" class="nav-link clickable-element">Home</a></li>
+                    <li><a href="#download" class="nav-link clickable-element">Download</a></li> <!-- Assuming #download section might exist or be added -->
                     <li><a href="https://discord.gg/nYfHty2AWp" class="nav-link clickable-element" target="_blank">Discord</a></li>
-                    <li><a href="#" class="nav-link clickable-element" id="settings-link">Settings</a></li>
-                    <li><a href="#" class="nav-link clickable-element">FAQ</a></li>
+                    <li><a href="#settings" class="nav-link clickable-element" id="settings-link-nav">Settings</a></li>
+                    <li><a href="#faq" class="nav-link clickable-element">FAQ</a></li> <!-- Assuming #faq section might exist or be added -->
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="hero-section background1">
+    <!-- Added id="home" to the hero section for scrolling -->
+    <section id="home" class="hero-section background1 section-separator-target">
         <div class="section-content centered-content">
             <img src="image/realmbanner.png" alt="Realm Creator Banner" class="realm-banner">
             <p>is the most powerful, customizable, useful and free Texture Pack available on the majority of platforms!</p>
             <div class="buttons">
-                <a href="#" class="button download-button clickable-element">Download</a>
+                <a href="#download" class="button download-button clickable-element">Download</a>
                 <a href="https://discord.gg/nYfHty2AWp" class="button discord-button clickable-element" target="_blank">Discord</a>
             </div>
         </div>
     </section>
 
-    <section class="features-section background2">
+    <section id="features" class="features-section background2 section-separator-target">
         <div class="section-content">
             <div class="features-container">
                 <div class="feature-pair blue">
@@ -53,7 +60,7 @@
         </div>
     </section>
 
-    <section class="creators-section background3">
+    <section id="creators" class="creators-section background3 section-separator-target">
         <div class="section-content centered-content">
             <h2>CREATORS</h2>
             <div class="creators-list">
@@ -79,9 +86,20 @@
                          <li>. Founder</li>
                     </ul>
                 </div>
+                <div class="creator-card">
+                    <img src="image/trashy.png" alt="Trashy's Head">
+                    <h3>Trashy</h3>
+                    <ul>
+                         <li>. Founder</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Placeholder for FAQ section if you add it -->
+    <!-- <section id="faq" class="faq-section background1"> ... </section> -->
+
 
     <footer>
         <div class="footer-content">
@@ -117,8 +135,9 @@
         </div>
     </div>
 
+    <!-- Renamed main music audio element for playlist functionality -->
+    <audio id="main-music-player" loop preload="auto"></audio>
     <audio id="minecraft-click" src="sounds/minecraftclick.mp3" preload="auto"></audio>
-    <audio id="main-music" src="sounds/mainmusic.mp3" loop preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
