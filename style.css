@@ -12,25 +12,39 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    scroll-behavior: smooth; /* Added for smooth scrolling with hash links */
+    scroll-behavior: smooth;
 }
 
 body {
     font-family: 'MinecraftTen', 'Pixelify Sans', 'Press Start 2P', Arial, sans-serif;
-    color: #333;
+    background-color: #fff; /* Default light background */
+    color: #333; /* Default light theme text color */
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Dark Theme Styles */
+body.dark-theme {
+    background-color: #222; /* Dark background for the entire page */
+    color: #e0e0e0; /* Lighter default text color for dark theme */
+}
+
 
 header {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #f0f0f0;
-    padding: 10px 20px; /* Adjusted padding slightly */
+    background-color: #f0f0f0; /* Light theme header */
+    padding: 10px 20px;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+body.dark-theme header {
+    background-color: #333; /* Dark theme header */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .header-container {
@@ -44,30 +58,84 @@ header {
 .logo {
     font-size: 1.2em;
     font-weight: bold;
-    color: #333;
-    margin-right: 20px; /* Space between logo and player controls */
+    color: #333; /* Light theme logo color */
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+body.dark-theme .logo {
+    color: #e0e0e0; /* Dark theme logo color */
 }
 
-/* Music Player Controls Styles */
+
 .music-player-controls {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-right: auto; /* Pushes nav to the right */
+    gap: 8px;
+    margin-right: auto;
 }
 
 .player-button {
     background-color: #ddd;
     border: 2px solid #555;
     color: #333;
-    font-size: 1.1em; /* Match font size with other clickable elements */
-    padding: 5px 10px;
+    font-size: 1.1em;
+    padding: 4px 8px;
     border-radius: 3px;
     cursor: pointer;
-    font-family: 'MinecraftTen', Arial, sans-serif; /* Ensure consistent font */
+    font-family: 'MinecraftTen', Arial, sans-serif;
+    min-width: 30px;
+    text-align: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 .player-button:hover {
     background-color: #ccc;
+}
+body.dark-theme .player-button {
+    background-color: #444;
+    border-color: #777;
+    color: #e0e0e0;
+}
+body.dark-theme .player-button:hover {
+    background-color: #555;
+}
+
+
+.player-button-img {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.player-button-img img {
+    width: 28px;
+    height: 28px;
+    display: block;
+    filter: none; /* Default for light theme */
+    transition: filter 0.3s ease;
+}
+.player-button-img:hover img {
+    opacity: 0.8;
+}
+body.dark-theme .player-button-img img {
+    filter: invert(90%) sepia(10%) saturate(100%) hue-rotate(180deg) brightness(100%) contrast(90%); /* Basic invert for dark theme */
+}
+
+
+#current-song-name {
+    font-size: 0.9em;
+    color: #555; /* Light theme song name */
+    margin-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    transition: color 0.3s ease;
+}
+body.dark-theme #current-song-name {
+    color: #bbb; /* Dark theme song name */
 }
 
 
@@ -75,18 +143,43 @@ nav ul {
     list-style: none;
     display: flex;
     gap: 20px;
+    align-items: center; /* Align theme toggle with other nav items */
 }
 
 nav a {
     text-decoration: none;
-    color: #333;
+    color: #333; /* Light theme nav link */
     font-weight: bold;
     transition: color 0.3s ease;
 }
-
 nav a:hover {
-    color: #007bff;
+    color: #007bff; /* Light theme nav link hover */
 }
+body.dark-theme nav a {
+    color: #bbb; /* Dark theme nav link */
+}
+body.dark-theme nav a:hover {
+    color: #e0e0e0; /* Dark theme nav link hover */
+}
+
+/* Theme Toggle Styles */
+.theme-toggle-container {
+    display: flex;
+    align-items: center;
+}
+#theme-toggle-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    line-height: 0;
+}
+#theme-toggle-img {
+    width: 32px; /* Adjust size as needed */
+    height: auto;
+    display: block;
+}
+
 
 section {
     width: 100%;
@@ -99,19 +192,15 @@ section {
     align-items: center;
     text-align: center;
     padding: 80px 20px 20px;
-    position: relative; /* Needed for pseudo-element separator */
+    position: relative;
+    border-bottom: 5px solid rgba(0, 0, 0, 0.3); /* Light theme separator */
+    transition: border-bottom-color 0.3s ease;
 }
-
-/* Section Separator Bar */
-.section-separator-target:not(:last-of-type)::after {
-    content: "";
-    position: absolute;
-    bottom: 0; /* Place at the very bottom of the section */
-    left: 0;
-    width: 100%;
-    height: 5px; /* Thickness of the bar */
-    background-color: rgba(0, 0, 0, 0.4); /* Dark, semi-transparent bar */
-    z-index: 5; /* Ensure it's above background but below next section's content */
+section:last-of-type {
+    border-bottom: none;
+}
+body.dark-theme section {
+    border-bottom-color: rgba(255, 255, 255, 0.15); /* Dark theme separator */
 }
 
 
@@ -144,7 +233,7 @@ section {
 .hero-section p {
     font-size: 1.2em;
     margin-bottom: 30px;
-    color: white;
+    color: white; /* This text is on a background image, so keep it light */
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
@@ -161,35 +250,47 @@ section {
     font-weight: bold;
     text-decoration: none;
     border-radius: 5px;
-    transition: background-color 0.3s ease, opacity 0.3s ease;
+    transition: background-color 0.3s ease, opacity 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     min-width: 150px;
     text-align: center;
     cursor: pointer;
     border: 2px solid #555;
-    background-color: #ccc;
-    color: #333;
+    background-color: #ccc; /* Light theme button */
+    color: #333; /* Light theme button text */
 }
-
 .button:hover {
-    background-color: #ddd;
+    background-color: #ddd; /* Light theme button hover */
     border-color: #666;
 }
+body.dark-theme .button {
+    background-color: #444; /* Dark theme button */
+    color: #e0e0e0; /* Dark theme button text */
+    border-color: #777;
+}
+body.dark-theme .button:hover {
+    background-color: #555; /* Dark theme button hover */
+    border-color: #888;
+}
+
 
 .download-button {
      background-color: #4CAF50;
      color: white;
      border-color: #4CAF50;
 }
-
 .download-button:hover {
     background-color: #45a049;
      border-color: #45a049;
 }
+body.dark-theme .download-button {
+    /* Keep specific green colors for download, just adjust hover if needed */
+}
+
 
 .features-section {
     align-items: center;
     text-align: center;
-    color: white;
+    color: white; /* Text is on background image, keep white */
 }
 
 .features-section .section-content {
@@ -224,6 +325,10 @@ section {
     flex-shrink: 0;
     border: 2px solid #555;
     box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    transition: border-color 0.3s ease;
+}
+body.dark-theme .feature-pair img {
+    border-color: #777;
 }
 
 .feature-text {
@@ -233,22 +338,29 @@ section {
 
 .feature-text p {
     font-size: 1.3em;
-    color: #eee;
+    color: #eee; /* Light text for features */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
     line-height: 1.4;
 }
+body.dark-theme .feature-text p {
+    color: #ccc; /* Slightly adjust if needed for dark theme, but should be fine */
+}
 .feature-text strong {
     font-size: 1.5em;
-    color: white;
+    color: white; /* Light text for feature titles */
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
     display: block;
     margin-bottom: 8px;
 }
+body.dark-theme .feature-text strong {
+    color: #f0f0f0; /* Slightly adjust if needed */
+}
+
 
 .creators-section h2 {
     font-size: 2.5em;
     margin-bottom: 40px;
-    color: white;
+    color: white; /* Text on background, keep white */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -260,15 +372,21 @@ section {
 }
 
 .creator-card {
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #f0f0f0; /* Light theme card bg */
+    color: #333; /* Light theme card text */
     padding: 20px;
     border-radius: 8px;
     text-align: center;
     flex: 1;
     min-width: 220px;
     max-width: 280px;
-     border: 3px solid #555;
+     border: 3px solid #555; /* Light theme card border */
+     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+body.dark-theme .creator-card {
+    background-color: #3a3a3a; /* Dark theme card bg */
+    color: #e0e0e0; /* Dark theme card text */
+    border-color: #666; /* Dark theme card border */
 }
 
 .creator-card img {
@@ -276,7 +394,11 @@ section {
     height: 80px;
     border-radius: 50%;
     margin-bottom: 15px;
-    border: 2px solid #555;
+    border: 2px solid #555; /* Light theme img border */
+    transition: border-color 0.3s ease;
+}
+body.dark-theme .creator-card img {
+    border-color: #777; /* Dark theme img border */
 }
 
 .creator-card h3 {
@@ -295,12 +417,18 @@ section {
 }
 
 footer {
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #f0f0f0; /* Light theme footer */
+    color: #333; /* Light theme footer text */
     text-align: center;
     padding: 20px;
     font-size: 0.9em;
-     border-top: 3px solid #555;
+     border-top: 3px solid #555; /* Light theme footer border */
+     transition: background-color 0.3s ease, color 0.3s ease, border-top-color 0.3s ease;
+}
+body.dark-theme footer {
+    background-color: #2a2a2a; /* Dark theme footer */
+    color: #ccc; /* Dark theme footer text */
+    border-top-color: #555; /* Dark theme footer border */
 }
 
 .footer-content {
@@ -314,9 +442,13 @@ footer {
     right: 15px;
     height: 100vh;
     width: 8px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.2); /* Light theme scrollbar track */
     z-index: 1001;
     pointer-events: none;
+    transition: background-color 0.3s ease;
+}
+body.dark-theme .custom-scrollbar {
+    background-color: rgba(255, 255, 255, 0.1); /* Dark theme scrollbar track */
 }
 
 .scrollbar-handle {
@@ -325,10 +457,16 @@ footer {
     left: -2px;
     width: 12px;
     height: 80px;
-    background-color: white;
-    border-radius: 4px;
-     border: 1px solid #555;
+    background-color: white; /* Light theme scrollbar handle */
+     border: 1px solid #555; /* Light theme scrollbar handle border */
+     border-radius: 4px;
+     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+body.dark-theme .scrollbar-handle {
+    background-color: #555; /* Dark theme scrollbar handle */
+    border-color: #888; /* Dark theme scrollbar handle border */
+}
+
 
 .modal-overlay {
     position: fixed;
@@ -344,8 +482,8 @@ footer {
 }
 
 .modal-content {
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #f0f0f0; /* Light theme modal */
+    color: #333; /* Light theme modal text */
     padding: 30px;
     border-radius: 8px;
     max-width: 500px;
@@ -353,14 +491,20 @@ footer {
     text-align: left;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
-    border: 3px solid #555;
+    border: 3px solid #555; /* Light theme modal border */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+body.dark-theme .modal-content {
+    background-color: #3a3a3a; /* Dark theme modal */
+    color: #e0e0e0; /* Dark theme modal text */
+    border-color: #666; /* Dark theme modal border */
 }
 
 .modal-content h3 {
     font-size: 2em;
     margin-bottom: 20px;
     text-align: center;
-    color: #333;
+    /* color is inherited from .modal-content */
 }
 
 .setting-row {
@@ -375,86 +519,101 @@ footer {
     font-size: 1.1em;
     margin-right: 15px;
      flex-shrink: 0;
+    /* color is inherited */
 }
 
-.setting-toggle {
-    padding: 8px 15px;
-    border-radius: 5px;
+.setting-toggle-button {
+    background: none;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    font-weight: bold;
-    min-width: 80px;
-    text-align: center;
-    transition: background-color 0.2s ease;
-     border: 2px solid #555;
-     background-color: #ccc;
-     color: #333;
+    line-height: 0;
 }
-.setting-toggle[data-state="on"] {
-    background-color: #4CAF50;
-    color: white;
-    border-color: #4CAF50;
-}
-.setting-toggle[data-state="on"]:hover {
-    background-color: #45a049;
+.setting-toggle-button img {
+    width: 60px;
+    height: auto;
+    display: block;
 }
 
-.setting-toggle[data-state="off"] {
-     background-color: #f44336;
-     color: white;
-     border-color: #f44336;
-}
-.setting-toggle[data-state="off"]:hover {
-     background-color: #e53935;
-}
 
 .custom-slider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 20px;
-    background: none;
+    height: 25px;
+    background: #ddd; /* Light theme slider track bg */
     outline: none;
     margin: 0;
-     padding: 0;
-     cursor: pointer;
-     position: relative;
-     flex-grow: 1;
-     min-width: 150px;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    flex-grow: 1;
+    min-width: 150px;
+    border-radius: 5px;
+    border: 1px solid #aaa; /* Light theme slider track border */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+body.dark-theme .custom-slider {
+    background: #444; /* Dark theme slider track bg */
+    border-color: #666; /* Dark theme slider track border */
+}
+
 .custom-slider::-webkit-slider-runnable-track {
-    width: 100%; height: 8px; cursor: pointer;
-    background: url('image/slider.png') repeat-x center;
-    background-size: contain; border-radius: 4px; border: none;
+    width: 100%; height: 10px; cursor: pointer;
+    background: #bbb; /* Light theme slider actual bar */
+    border-radius: 5px;
+    border: 1px solid #999; /* Light theme slider actual bar border */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
-.custom-slider::-moz-range-track {
-    width: 100%; height: 8px; cursor: pointer;
-    background: url('image/slider.png') repeat-x center;
-    background-size: contain; border-radius: 4px; border: none;
+body.dark-theme .custom-slider::-webkit-slider-runnable-track {
+    background: #555; /* Dark theme slider actual bar */
+    border-color: #777; /* Dark theme slider actual bar border */
 }
-.custom-slider::-ms-track {
-    width: 100%; height: 8px; cursor: pointer;
-    background: url('image/slider.png') repeat-x center;
-    background-size: contain; border-radius: 4px; border: none;
-    color: transparent;
+
+.custom-slider::-moz-range-track { /* Firefox specific */
+    width: 100%; height: 10px; cursor: pointer;
+    background: #bbb;
+    border-radius: 5px;
+    border: 1px solid #999;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+body.dark-theme .custom-slider::-moz-range-track {
+    background: #555;
+    border-color: #777;
+}
+
 .custom-slider::-webkit-slider-thumb {
     -webkit-appearance: none; appearance: none;
-    width: 20px; height: 20px;
-    background: url('image/sliderbutton.png') no-repeat center center;
-    background-size: cover; cursor: pointer;
-    margin-top: -6px; border: none;
+    width: 24px; height: 24px;
+    background-image: url('image/waterascend.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    margin-top: -7px;
+    border: 1px solid #777; /* Light theme thumb border */
+    border-radius: 50%;
+    transition: border-color 0.3s ease;
 }
-.custom-slider::-moz-range-thumb {
-    width: 20px; height: 20px;
-    background: url('image/sliderbutton.png') no-repeat center center;
-    background-size: cover; cursor: pointer;
-    border: none; border-radius: 0;
+body.dark-theme .custom-slider::-webkit-slider-thumb {
+    border-color: #aaa; /* Dark theme thumb border */
 }
-.custom-slider::-ms-thumb {
-    width: 20px; height: 20px;
-    background: url('image/sliderbutton.png') no-repeat center center;
-    background-size: cover; cursor: pointer; border: none;
+
+.custom-slider::-moz-range-thumb { /* Firefox specific */
+    width: 24px; height: 24px;
+    background-image: url('image/waterascend.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border: 1px solid #777;
+    border-radius: 50%;
+    transition: border-color 0.3s ease;
 }
+body.dark-theme .custom-slider::-moz-range-thumb {
+    border-color: #aaa;
+}
+
 
 #close-settings {
     margin-top: 20px;
@@ -462,38 +621,37 @@ footer {
     width: 100%;
 }
 
-@media (max-width: 992px) { /* Adjusted breakpoint for header controls */
+@media (max-width: 992px) {
     .header-container {
-        flex-wrap: wrap; /* Allow wrapping */
+        flex-wrap: wrap;
         gap: 10px;
     }
     .logo {
-        margin-right: 0; /* Remove specific margin */
-        flex-basis: 100%; /* Logo takes full width on its line */
-        text-align: center; /* Center logo when it wraps */
+        margin-right: 0;
+        flex-basis: 100%;
+        text-align: center;
     }
     .music-player-controls {
-        order: 2; /* Place after nav on wrap if needed, or adjust order */
-        margin-left: 0; /* Reset margin */
-        margin-right: 0;
-        justify-content: center; /* Center controls when wrapped */
-        width: 100%;
+        order: 2;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center;
+        width: auto;
+        padding-bottom: 5px;
     }
     nav {
-        order: 1; /* Nav first then player controls on new line */
+        order: 1;
         width: 100%;
         justify-content: center;
     }
     nav ul {
-        justify-content: center; /* Center nav items */
-        flex-wrap: wrap; /* Allow nav items to wrap too */
+        justify-content: center;
+        flex-wrap: wrap;
     }
 }
 
 
 @media (max-width: 768px) {
-    /* .header-container adjustments from above will apply */
-
     .realm-banner { max-width: 90%; }
     .hero-section p { font-size: 1em; }
     .hero-section .buttons { flex-direction: column; gap: 10px; }
@@ -532,15 +690,27 @@ footer {
     .modal-content h3 { font-size: 1.5em; }
     .setting-row { flex-direction: column; align-items: flex-start; gap: 5px; }
     .setting-row label { margin-right: 0; }
-    .setting-toggle { width: 100%; }
+    .setting-toggle-button img { width: 50px; } /* Slightly smaller toggle on mobile */
     .custom-slider { width: 100%; min-width: auto; }
 }
 
 @media (max-width: 480px) {
-     /* .header-container adjustments from above will apply */
      .logo { font-size: 1em; }
-     nav ul { flex-direction: column; gap: 5px; } /* Stack nav links on very small screens */
+     nav ul { flex-direction: column; gap: 5px; }
      nav a { font-size: 0.9em; }
+     .music-player-controls {
+         flex-wrap: wrap;
+         justify-content: center;
+     }
+     #current-song-name {
+         flex-basis: 100%;
+         text-align: center;
+         margin-left: 0;
+         margin-top: 5px;
+         max-width: 100%;
+     }
+     .player-button-img img { width: 24px; height: 24px; }
+
 
      .realm-banner { max-width: 100%; }
     .hero-section p { font-size: 0.9em; }
