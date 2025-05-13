@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const prevSongButton = document.getElementById('prev-song');
     const nextSongButton = document.getElementById('next-song');
-    const playPauseButton = document.getElementById('play-pause-song');
+    // Play/Pause button was removed
     const currentSongNameDisplay = document.getElementById('current-song-name');
 
     const themeToggleButton = document.getElementById('theme-toggle-button');
@@ -33,24 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let musicVolume = 0.5;
     let clickVolume = 1.0;
     let hasUserInteracted = false;
-    let isDarkMode = false; // Default to light mode
+    let isDarkMode = false;
 
     const generalToggleImages = {
         on: 'image/toggle_on.png',
         off: 'image/toggle_off.png'
     };
 
-    // These images are for the theme toggle button itself
     const themeButtonVisuals = {
-        lightModeActive: 'image/toggle_off_dark.png', // Shows lightbulb (dark mode is off)
-        darkModeActive: 'image/toggle_on_dark.png'   // Shows moon (dark mode is on)
-    };
-
-
-    const updatePlayPauseButton = () => {
-        if (mainMusicPlayer && playPauseButton) {
-            playPauseButton.textContent = mainMusicPlayer.paused || !isMusicEnabled ? '▶️' : '⏸️';
-        }
+        lightModeActive: 'image/toggle_off_dark.png',
+        darkModeActive: 'image/toggle_on_dark.png'
     };
 
     const updateSongNameDisplay = () => {
@@ -60,24 +52,33 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadSong = (index, playWhenReady = false) => {
+        console.log(`Loading song index: ${index}, playWhenReady: ${playWhenReady}, isMusicEnabled: ${isMusicEnabled}, hasUserInteracted: ${hasUserInteracted}`);
         if (mainMusicPlayer && songPlaylist && songPlaylist[index]) {
             mainMusicPlayer.src = songPlaylist[index].src;
             mainMusicPlayer.volume = musicVolume;
             updateSongNameDisplay();
             if (playWhenReady && isMusicEnabled && hasUserInteracted) {
-                mainMusicPlayer.play().catch(e => console.error("Error playing loaded song:", e));
+                const playPromise = mainMusicPlayer.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => console.error("Error playing loaded song:", e));
+                }
             }
-            updatePlayPauseButton();
+        } else {
+            console.error("Failed to load song: Player or playlist issue.");
         }
     };
 
     const playNextSong = () => {
+        console.log("playNextSong called");
+        if (!hasUserInteracted) hasUserInteracted = true;
         currentSongIndex = (currentSongIndex + 1) % songPlaylist.length;
         loadSong(currentSongIndex, true);
         saveSettings();
     };
 
     const playPrevSong = () => {
+        console.log("playPrevSong called");
+        if (!hasUserInteracted) hasUserInteracted = true;
         currentSongIndex = (currentSongIndex - 1 + songPlaylist.length) % songPlaylist.length;
         loadSong(currentSongIndex, true);
         saveSettings();
@@ -85,33 +86,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mainMusicPlayer) {
         mainMusicPlayer.addEventListener('ended', () => {
+            console.log("Song ended");
             if (isMusicEnabled) playNextSong();
         });
-        mainMusicPlayer.addEventListener('play', updatePlayPauseButton);
-        mainMusicPlayer.addEventListener('pause', updatePlayPauseButton);
+        mainMusicPlayer.addEventListener('error', (e) => {
+            console.error("Audio Player Error:", e, mainMusicPlayer.error);
+        });
+        mainMusicPlayer.addEventListener('canplaythrough', () => {
+            console.log(`Song ${mainMusicPlayer.src} can play through.`);
+        });
+
     }
 
     if (prevSongButton) prevSongButton.addEventListener('click', playPrevSong);
     if (nextSongButton) nextSongButton.addEventListener('click', playNextSong);
 
-    if (playPauseButton && mainMusicPlayer) {
-        playPauseButton.addEventListener('click', () => {
-            if (!hasUserInteracted) {
-                hasUserInteracted = true;
-                 loadSong(currentSongIndex, false);
-            }
-            if (!isMusicEnabled) {
-                 isMusicEnabled = true;
-                 setToggleImageSrc(musicToggleImg, isMusicEnabled, generalToggleImages.on, generalToggleImages.off);
-                 saveSettings();
-            }
-            if (mainMusicPlayer.paused) {
-                mainMusicPlayer.play().catch(e => console.error("Error playing music:", e));
-            } else {
-                mainMusicPlayer.pause();
-            }
-        });
-    }
 
     const setToggleImageSrc = (imgElement, isEnabled, onImg, offImg) => {
         if (!imgElement) return;
@@ -129,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadSettings = () => {
+        console.log("Loading settings...");
         const savedMusicEnabled = localStorage.getItem('isMusicEnabled');
         if (savedMusicEnabled !== null) isMusicEnabled = savedMusicEnabled === 'true';
         setToggleImageSrc(musicToggleImg, isMusicEnabled, generalToggleImages.on, generalToggleImages.off);
@@ -163,13 +153,13 @@ document.addEventListener('DOMContentLoaded', () => {
         loadSong(currentSongIndex, false);
 
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') { // Default to light if not 'dark'
+        if (savedTheme === 'dark') {
             isDarkMode = true;
         } else {
             isDarkMode = false;
         }
         applyTheme();
-        updatePlayPauseButton();
+        console.log("Settings loaded:", {isMusicEnabled, isClickSoundEnabled, musicVolume, clickVolume, currentSongIndex, isDarkMode});
     };
 
     const saveSettings = () => {
@@ -179,14 +169,19 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('clickVolume', clickVolume);
         localStorage.setItem('currentSongIndex', currentSongIndex);
         localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        console.log("Settings saved");
     };
 
     document.body.addEventListener('click', () => {
         if (!hasUserInteracted) {
+            console.log("Body clicked - first user interaction.");
             hasUserInteracted = true;
             if (isMusicEnabled && mainMusicPlayer && mainMusicPlayer.paused) {
-                 loadSong(currentSongIndex, false);
-                 mainMusicPlayer.play().catch(e => console.error("Initial music play error:", e));
+                 console.log("Attempting to play music after first interaction.");
+                 const playPromise = mainMusicPlayer.play();
+                 if (playPromise !== undefined) {
+                    playPromise.catch(e => console.error("Initial music play error (body click):", e));
+                 }
             }
         }
     }, { once: true });
@@ -214,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleHashChange = () => {
         const hash = window.location.hash;
+        console.log("Hash changed to:", hash);
         if (hash === '#settings') {
             openSettingsModal();
         } else {
@@ -230,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.addEventListener('hashchange', handleHashChange);
-    handleHashChange();
 
     if (settingsLinkNav) {
         settingsLinkNav.addEventListener('click', (event) => {
@@ -263,16 +258,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (musicToggleButton && mainMusicPlayer && musicToggleImg) {
         musicToggleButton.addEventListener('click', () => {
             isMusicEnabled = !isMusicEnabled;
+            console.log("Music toggle clicked. isMusicEnabled:", isMusicEnabled);
             setToggleImageSrc(musicToggleImg, isMusicEnabled, generalToggleImages.on, generalToggleImages.off);
             if (isMusicEnabled) {
                 if (!hasUserInteracted) hasUserInteracted = true;
                 if (mainMusicPlayer.paused) {
-                     loadSong(currentSongIndex, true);
+                     console.log("Music toggled ON, attempting to play/resume.");
+                     const playPromise = mainMusicPlayer.play();
+                     if(playPromise !== undefined) {
+                        playPromise.catch(e => console.error("Error resuming/playing music from toggle:", e));
+                     }
                 }
             } else {
+                console.log("Music toggled OFF, pausing.");
                 mainMusicPlayer.pause();
             }
-            updatePlayPauseButton();
             saveSettings();
         });
     }
@@ -328,10 +328,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeToggleButton && themeToggleImg) {
         themeToggleButton.addEventListener('click', () => {
             isDarkMode = !isDarkMode;
+            console.log("Theme toggle clicked. isDarkMode:", isDarkMode);
             applyTheme();
             saveSettings();
         });
     }
 
     loadSettings();
+    handleHashChange(); // Call on initial load to handle initial hash (e.g. #settings)
 });
