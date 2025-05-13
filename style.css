@@ -1,16 +1,16 @@
 /* style.css */
 
 /* --- Custom Minecraft-Themed Font --- */
-/* Add your font files (e.g., minecraftten.woff, minecraftten.woff2)
-   to a 'fonts' folder in your project directory. */
+/* Ensure your font file 'minecraftfont.woff2' is in the 'image/' folder. */
 @font-face {
-    font-family: 'MinecraftTen'; /* Give your font a name */
-    src: url('fonts/minecraftten.woff2') format('woff2'),
-         url('fonts/minecraftten.woff') format('woff');
-    /* Add other formats like ttf or otf if needed as fallbacks */
-    font-weight: normal; /* Adjust if your font has different weights */
-    font-style: normal;  /* Adjust if your font has different styles */
-    /* Use swap for better perceived loading performance */
+    font-family: 'MinecraftTen'; /* Keep your chosen CSS font family name */
+    src: url('image/minecraftfont.woff2') format('woff2');
+    /* If you also have a .woff version, add it as a fallback:
+       src: url('image/minecraftfont.woff2') format('woff2'),
+            url('image/minecraftfont.woff') format('woff');
+    */
+    font-weight: normal;
+    font-style: normal;
     font-display: swap;
 }
 
@@ -23,39 +23,22 @@
 }
 
 body {
-    /* Apply the custom font first, with fallbacks */
     font-family: 'MinecraftTen', 'Pixelify Sans', 'Press Start 2P', Arial, sans-serif;
-    color: #333; /* Default text color */
-    line-height: 1.6; /* Adjust line height as pixel fonts can be tall */
-    overflow-x: hidden; /* Prevent horizontal scroll from custom scrollbar */
-    position: relative; /* Needed for absolute/fixed children */
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
 }
-
-/* Apply custom font specifically to elements if body rule isn't enough or you want variation */
-/* Uncomment and adjust if you don't want the font applied globally by the body rule */
-/*
-.logo,
-h1, h2, h3, h4, h5, h6,
-.button,
-.modal-content h3,
-.setting-row label,
-.setting-toggle,
-.feature-text p { /* Added .feature-text p */
-/*     font-family: 'MinecraftTen', 'Pixelify Sans', sans-serif; */
-/* } */
-
 
 /* --- Header --- */
 header {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #f0f0f0; /* Light gray background */
+    background-color: #f0f0f0;
     padding: 15px 20px;
-    z-index: 1000; /* Keep header on top */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional subtle shadow */
-    /* Maybe add a border to match Minecraft UI? */
-    /* border-bottom: 3px solid #555; */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .header-container {
@@ -69,13 +52,13 @@ header {
 .logo {
     font-size: 1.2em;
     font-weight: bold;
-    color: #333; /* Adjust color if needed */
+    color: #333;
 }
 
 nav ul {
     list-style: none;
     display: flex;
-    gap: 20px; /* Space between links */
+    gap: 20px;
 }
 
 nav a {
@@ -86,45 +69,37 @@ nav a {
 }
 
 nav a:hover {
-    color: #007bff; /* Example hover color */
+    color: #007bff;
 }
 
 /* --- Sections --- */
 section {
     width: 100%;
-    min-height: 100vh; /* Full viewport height */
+    min-height: 100vh;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    display: flex; /* Use flexbox for content alignment */
-    justify-content: center; /* Center content horizontally by default */
-    align-items: center; /* Center content vertically by default */
-    text-align: center; /* Default text alignment */
-    padding: 80px 20px 20px; /* Add padding to account for fixed header */
-    position: relative; /* Needed for internal absolute positioning if any */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 20px 20px;
+    position: relative;
 }
 
 /* Background Images */
-.background1 {
-    background-image: url('image/background1.png');
-}
-
-.background2 {
-    background-image: url('image/background2.png');
-}
-
-.background3 {
-    background-image: url('image/background3.png');
-}
+.background1 { background-image: url('image/background1.png'); }
+.background2 { background-image: url('image/background2.png'); }
+.background3 { background-image: url('image/background3.png'); }
 
 /* Content Container */
 .section-content {
-    max-width: 1000px; /* Max width for content */
-    width: 100%; /* Ensure it takes full width up to max-width */
-    margin: 0 auto; /* Center content horizontally */
-    padding: 20px; /* Padding inside content area */
-    position: relative; /* Needed for z-index or positioning */
-    z-index: 2; /* Ensure content is above background */
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .centered-content {
@@ -136,28 +111,22 @@ section {
 
 
 /* --- Hero Section Specific Styles --- */
-/* Removed .hero-section h1 and .hero-section .main-bb-logo styles */
-
-/* Style for the new banner image */
 .realm-banner {
-    max-width: 80%; /* Adjust max width as needed */
+    max-width: 80%;
     height: auto;
-    margin-bottom: 15px; /* Space below the banner */
-     /* Optional: Add a subtle shadow if desired */
-     /* filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.5)); */
+    margin-bottom: 15px;
 }
-
 
 .hero-section p {
     font-size: 1.2em;
     margin-bottom: 30px;
-    color: white; /* Assuming light text for contrast */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Optional shadow */
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .hero-section .buttons {
     display: flex;
-    gap: 20px; /* Space between buttons */
+    gap: 20px;
     justify-content: center;
 }
 
@@ -167,24 +136,23 @@ section {
     font-size: 1.1em;
     font-weight: bold;
     text-decoration: none;
-    border-radius: 5px; /* Keep rounding or make square? */
+    border-radius: 5px;
     transition: background-color 0.3s ease, opacity 0.3s ease;
-    min-width: 150px; /* Ensure buttons have a minimum width */
+    min-width: 150px;
     text-align: center;
-    cursor: pointer; /* Indicate it's clickable */
-    border: 2px solid #555; /* Optional border */
-    background-color: #ccc; /* Default Minecraft button background */
-    color: #333; /* Default Minecraft button text */
+    cursor: pointer;
+    border: 2px solid #555;
+    background-color: #ccc;
+    color: #333;
 }
 
 .button:hover {
-    background-color: #ddd; /* Hover color */
+    background-color: #ddd;
     border-color: #666;
 }
 
 .download-button {
-    /* Specific colors if needed, overrides general .button */
-     background-color: #4CAF50; /* Green */
+     background-color: #4CAF50;
      color: white;
      border-color: #4CAF50;
 }
@@ -194,37 +162,29 @@ section {
      border-color: #45a049;
 }
 
-.discord-button {
-     /* Already styled by general .button if no specific style */
-     /* Use a discord-like color if desired */
-     /* background-color: #7289da; color: white; border-color: #7289da; */
-}
-
-
 /* --- Features Section Specific Styles --- */
 .features-section {
-    align-items: center; /* Center content vertically in this section */
-    text-align: center; /* Center text in this section */
-    color: white; /* Assuming light text on dark background */
+    align-items: center;
+    text-align: center;
+    color: white;
 }
 
 .features-section .section-content {
-     /* Allow flex layout for the inner container */
      display: flex;
-     justify-content: center; /* Center the feature pairs container */
-     align-items: center; /* Center vertically */
-     padding-top: 20px; /* Adjust padding */
+     justify-content: center;
+     align-items: center;
+     padding-top: 20px;
 }
 
-/* New container for feature pairs */
+/* Container for the two feature blocks */
 .features-container {
     display: flex;
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    gap: 50px; /* Space between the two feature blocks */
-    justify-content: center; /* Center blocks if they don't fill the width */
-    align-items: center; /* Align pairs vertically */
-    width: 100%; /* Take full width of section-content */
-    max-width: 900px; /* Optional max width for the container */
+    justify-content: space-around; /* Distribute space around feature pairs */
+    align-items: flex-start; /* Align items to the top */
+    width: 100%;
+    max-width: 1100px; /* Max width for the two-column layout */
+    gap: 30px; /* Gap between the two columns / rows when wrapped */
 }
 
 /* Each feature pair (Logo + Text) */
@@ -232,17 +192,21 @@ section {
     display: flex;
     align-items: center; /* Vertically center image and text */
     gap: 20px; /* Space between image and text */
-    /* flex: 1; */ /* Allow pairs to grow/shrink - maybe not needed with fixed width/max-width */
-    max-width: 450px; /* Max width for each pair */
+    flex-basis: 45%; /* Aim for two columns, leaving space for gap and justify-content */
+    max-width: 500px; /* Max width for each pair */
+    min-width: 280px; /* Minimum width before wrapping if space is tight */
+    /* background-color: rgba(0,0,0,0.3); /* Optional subtle background for readability */
+    /* padding: 15px; */
+    /* border-radius: 8px; */
 }
 
-/* Style for the new logo images */
+/* Style for the new logo images - SMALLER */
 .feature-pair img {
-    width: 120px; /* Set a fixed width */
+    width: 100px; /* SMALLER IMAGE SIZE */
     height: auto; /* Maintain aspect ratio */
     flex-shrink: 0; /* Prevent image from shrinking */
-     border: 2px solid #555; /* Optional border */
-     box-shadow: 3px 3px 6px rgba(0,0,0,0.3); /* Optional shadow */
+    border: 2px solid #555; /* Optional border */
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.3); /* Optional shadow */
 }
 
 .feature-text {
@@ -250,17 +214,19 @@ section {
     text-align: left; /* Align text left */
 }
 
+/* BIGGER TEXT SIZE */
 .feature-text p {
-    font-size: 1.1em;
+    font-size: 1.3em; /* BIGGER TEXT */
     color: #eee; /* Lighter text for description */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    line-height: 1.4; /* Adjust line height for readability */
 }
 .feature-text strong {
-    font-size: 1.3em; /* Make the main name slightly larger */
+    font-size: 1.5em; /* Make the main name slightly larger, relative to p */
     color: white; /* Make the name brighter */
-     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
-     display: block; /* Make the name on its own line */
-     margin-bottom: 5px; /* Space below the name */
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+    display: block; /* Make the name on its own line */
+    margin-bottom: 8px; /* Space below the name */
 }
 
 
@@ -268,35 +234,35 @@ section {
 .creators-section h2 {
     font-size: 2.5em;
     margin-bottom: 40px;
-    color: white; /* Assuming light text */
+    color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .creators-list {
     display: flex;
-    gap: 30px; /* Space between creator cards */
+    gap: 30px;
     justify-content: center;
-    flex-wrap: wrap; /* Allow cards to wrap on small screens */
+    flex-wrap: wrap;
 }
 
 .creator-card {
-    background-color: #f0f0f0; /* Light gray background */
+    background-color: #f0f0f0;
     color: #333;
     padding: 20px;
-    border-radius: 8px; /* Keep rounding or make square? */
+    border-radius: 8px;
     text-align: center;
-    flex: 1; /* Allow cards to grow and shrink */
-    min-width: 250px; /* Minimum width for cards */
-    max-width: 350px; /* Maximum width for cards */
-     border: 3px solid #555; /* Optional border */
+    flex: 1;
+    min-width: 250px;
+    max-width: 350px;
+     border: 3px solid #555;
 }
 
 .creator-card img {
-    width: 80px; /* Adjust size as needed */
+    width: 80px;
     height: 80px;
-    border-radius: 50%; /* Make image round */
+    border-radius: 50%;
     margin-bottom: 15px;
-    border: 2px solid #555; /* Optional border */
+    border: 2px solid #555;
 }
 
 .creator-card h3 {
@@ -307,7 +273,7 @@ section {
 .creator-card ul {
     list-style: none;
     padding: 0;
-    text-align: left; /* Align list items left */
+    text-align: left;
 }
 
 .creator-card li {
@@ -316,12 +282,12 @@ section {
 
 /* --- Footer --- */
 footer {
-    background-color: #f0f0f0; /* Match header/card background */
+    background-color: #f0f0f0;
     color: #333;
     text-align: center;
     padding: 20px;
     font-size: 0.9em;
-     border-top: 3px solid #555; /* Optional border */
+     border-top: 3px solid #555;
 }
 
 .footer-content {
@@ -333,28 +299,23 @@ footer {
 .custom-scrollbar {
     position: fixed;
     top: 0;
-    right: 15px; /* Distance from the right edge */
+    right: 15px;
     height: 100vh;
-    width: 8px; /* Width of the scrollbar track */
-    background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent black track */
-    z-index: 1001; /* Above header */
-    pointer-events: none; /* Allow clicks to pass through */
-}
-
-.scrollbar-track {
-     /* The container (.custom-scrollbar) acts as the track */
+    width: 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    pointer-events: none;
 }
 
 .scrollbar-handle {
     position: absolute;
-    /* Position the handle visually based on the first image (near top) */
-    top: 15vh; /* Example position */
-    left: -2px; /* Center handle over track - adjust based on width */
-    width: 12px; /* Width of the handle */
-    height: 80px; /* Height of the handle - adjust as needed */
-    background-color: white; /* White handle */
-    border-radius: 4px; /* Keep rounding or make square? */
-     border: 1px solid #555; /* Optional border */
+    top: 15vh;
+    left: -2px;
+    width: 12px;
+    height: 80px;
+    background-color: white;
+    border-radius: 4px;
+     border: 1px solid #555;
 }
 
 
@@ -365,25 +326,24 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent overlay */
-    display: flex; /* Use flexbox to center content */
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none; /* Hidden by default, shown by JS */
     justify-content: center;
     align-items: center;
-    z-index: 2000; /* Above everything */
-    display: none; /* Hidden by default */
+    z-index: 2000;
 }
 
 .modal-content {
-    background-color: #f0f0f0; /* Light background, similar to cards */
+    background-color: #f0f0f0;
     color: #333;
     padding: 30px;
-    border-radius: 8px; /* Keep rounding or make square? */
-    max-width: 500px; /* Max width for the modal */
-    width: 90%; /* Responsive width */
-    text-align: left; /* Align text left inside modal */
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    text-align: left;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    position: relative; /* Needed for potential positioning of close button etc. */
-    border: 3px solid #555; /* Optional border */
+    position: relative;
+    border: 3px solid #555;
 }
 
 .modal-content h3 {
@@ -398,297 +358,164 @@ footer {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
+    flex-wrap: wrap;
 }
 
 .setting-row label {
     font-size: 1.1em;
-    margin-right: 15px; /* Space between label and control */
-     flex-shrink: 0; /* Prevent label from shrinking */
+    margin-right: 15px;
+     flex-shrink: 0;
 }
 
 .setting-toggle {
-    background-color: #4CAF50; /* Green for On */
-    color: white;
-    border: none; /* Remove default button border */
     padding: 8px 15px;
-    border-radius: 5px; /* Keep rounding or make square? */
+    border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    min-width: 80px; /* Fixed width for toggle button */
+    min-width: 80px;
     text-align: center;
     transition: background-color 0.2s ease;
-     border: 2px solid #555; /* Optional border */
-     background-color: #ccc; /* Default Minecraft button background */
-     color: #333; /* Default Minecraft button text */
+     border: 2px solid #555;
+     background-color: #ccc; /* Default "On" or general state */
+     color: #333;
+}
+.setting-toggle[data-state="on"] {
+    background-color: #4CAF50; /* Green for On */
+    color: white;
+    border-color: #4CAF50;
+}
+.setting-toggle[data-state="on"]:hover {
+    background-color: #45a049;
 }
 
-.setting-toggle:hover {
-     background-color: #ddd; /* Hover color */
-     border-color: #666;
-}
-
-/* Style for the "Off" state */
-.setting-toggle[data-state="off"] { /* Example if using a data attribute or class */
+.setting-toggle[data-state="off"] {
      background-color: #f44336; /* Red for Off */
+     color: white;
      border-color: #f44336;
 }
 .setting-toggle[data-state="off"]:hover {
-     background-color: #e53935; /* Darker red on hover */
-     border-color: #e53935;
+     background-color: #e53935;
 }
 
 
-/* --- Custom Slider Styling (Applies to .custom-slider input[type="range"]) --- */
-
+/* --- Custom Slider Styling --- */
 .custom-slider {
-    -webkit-appearance: none; /* Remove default webkit styles */
-    appearance: none; /* Remove default styles */
-    width: 100%; /* Full width within its container */
-    height: 20px; /* Height of the track area */
-    background: none; /* Start with no background */
-    outline: none; /* Remove outline */
-    margin: 0; /* Remove default margin */
-     padding: 0; /* Remove default padding */
-     cursor: pointer;
-     position: relative; /* Needed for absolute positioning within the slider */
-     flex-grow: 1; /* Allow slider to take available space */
-     min-width: 150px; /* Ensure slider has a minimum width */
-}
-
-/* Apply background image to the track (this is tricky cross-browser) */
-/* Webkit (Chrome, Edge, Safari) */
-.custom-slider::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 8px; /* Height of the visible track */
-    cursor: pointer;
-    background: url('image/slider.png') repeat-x center; /* Repeat track image */
-    background-size: contain; /* or auto, depending on image size */
-    border-radius: 4px; /* Match track image borders or make square? */
-    border: none; /* Remove default border */
-    /* Need to ensure the handle is centered vertically on this track height */
-}
-
-/* Firefox */
-.custom-slider::-moz-range-track {
-    width: 100%;
-    height: 8px;
-    cursor: pointer;
-    background: url('image/slider.png') repeat-x center;
-     background-size: contain;
-    border-radius: 4px;
-    border: none;
-     /* Need to ensure the handle is centered vertically on this track height */
-}
-
-/* IE */
-.custom-slider::-ms-track {
-    width: 100%;
-    height: 8px;
-    cursor: pointer;
-    background: url('image/slider.png') repeat-x center;
-     background-size: contain;
-    border-radius: 4px;
-    border: none;
-    color: transparent; /* Hide default track color */
-}
-
-/* Style the slider handle (thumb) */
-/* Webkit (Chrome, Edge, Safari) */
-.custom-slider::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Remove default appearance */
+    -webkit-appearance: none;
     appearance: none;
-    width: 20px; /* Width of the handle */
-    height: 20px; /* Height of the handle */
-    background: url('image/sliderbutton.png') no-repeat center center; /* Handle image */
-    background-size: cover; /* or contain, depending on image size */
-    cursor: pointer;
-    margin-top: -6px; /* Adjust vertically to center on the track (track height 8px, handle height 20px -> (20-8)/2 = 6) */
-     border: none; /* Remove default border */
+    width: 100%;
+    height: 20px;
+    background: none;
+    outline: none;
+    margin: 0;
+     padding: 0;
+     cursor: pointer;
+     position: relative;
+     flex-grow: 1;
+     min-width: 150px;
 }
-
-/* Firefox */
+.custom-slider::-webkit-slider-runnable-track {
+    width: 100%; height: 8px; cursor: pointer;
+    background: url('image/slider.png') repeat-x center;
+    background-size: contain; border-radius: 4px; border: none;
+}
+.custom-slider::-moz-range-track {
+    width: 100%; height: 8px; cursor: pointer;
+    background: url('image/slider.png') repeat-x center;
+    background-size: contain; border-radius: 4px; border: none;
+}
+.custom-slider::-ms-track {
+    width: 100%; height: 8px; cursor: pointer;
+    background: url('image/slider.png') repeat-x center;
+    background-size: contain; border-radius: 4px; border: none;
+    color: transparent;
+}
+.custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 20px; height: 20px;
+    background: url('image/sliderbutton.png') no-repeat center center;
+    background-size: cover; cursor: pointer;
+    margin-top: -6px; border: none;
+}
 .custom-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 20px; height: 20px;
     background: url('image/sliderbutton.png') no-repeat center center;
-    background-size: cover;
-    cursor: pointer;
-     border: none;
-     border-radius: 0; /* Pixel handle is usually square */
+    background-size: cover; cursor: pointer;
+    border: none; border-radius: 0;
 }
-
-/* IE */
 .custom-slider::-ms-thumb {
-    width: 20px;
-    height: 20px;
+    width: 20px; height: 20px;
     background: url('image/sliderbutton.png') no-repeat center center;
-     background-size: cover;
-    cursor: pointer;
-     border: none;
-     /* IE thumb alignment is notoriously difficult */
+    background-size: cover; cursor: pointer; border: none;
 }
-
-/* Optional: Style the progress bar (the part of the track before the thumb) */
-/* This is also tricky and often not perfectly aligned with image backgrounds */
-/*
-.custom-slider::-webkit-progress-value { background: green; } // Example
-.custom-slider::-moz-progress-bar { background: green; } // Example
-*/
 
 #close-settings {
     margin-top: 20px;
-    display: block; /* Make it take its own line */
-    width: 100%; /* Full width button */
+    display: block;
+    width: 100%;
 }
 
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-        gap: 10px;
-    }
+    .header-container { flex-direction: column; gap: 10px; }
+    nav ul { gap: 10px; }
+    .realm-banner { max-width: 90%; }
+    .hero-section p { font-size: 1em; }
+    .hero-section .buttons { flex-direction: column; gap: 10px; }
+    .button { padding: 12px 20px; font-size: 1em; min-width: auto; }
 
-    nav ul {
-        gap: 10px;
-    }
-
-    /* Adjust banner size on smaller screens */
-    .realm-banner {
-        max-width: 90%;
-    }
-
-     /* Removed hero h1/bb logo specific styles */
-
-
-    .hero-section p {
-        font-size: 1em;
-    }
-
-    .hero-section .buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .button {
-        padding: 12px 20px;
-        font-size: 1em;
-        min-width: auto;
-    }
-
-    /* Stack feature pairs on smaller screens */
+    /* Updated Responsive Features */
     .features-container {
-        flex-direction: column;
-        gap: 30px; /* Adjust gap when stacked */
+        flex-direction: column; /* Stack feature pairs */
+        align-items: center; /* Center them when stacked */
+        gap: 40px; /* Increase gap when stacked vertically */
     }
-
-    /* Stack image and text within each pair on smaller screens */
     .feature-pair {
-        flex-direction: column;
-        text-align: center; /* Center text when stacked */
-        gap: 10px; /* Adjust gap within pair */
-        max-width: 100%; /* Allow full width */
+        flex-basis: 100%; /* Full width when stacked */
+        max-width: 450px; /* Max width for a single stacked item */
+        flex-direction: column; /* Stack image and text within the pair */
+        text-align: center; /* Center text within the pair when stacked */
+        gap: 15px;
     }
-
      .feature-pair img {
-        width: 80px; /* Make logo smaller on mobile */
+        width: 80px; /* Can make logo a bit smaller on mobile if desired */
      }
-
      .feature-text {
-        text-align: center; /* Center text when stacked */
+        text-align: center; /* Ensure text is centered when stacked */
+     }
+      .feature-text p {
+        font-size: 1.1em; /* Adjust text size for mobile */
+     }
+      .feature-text strong {
+        font-size: 1.3em; /* Adjust strong text for mobile */
      }
 
-
-    .creators-list {
-        flex-direction: column; /* Stack creator cards */
-        gap: 20px;
-    }
-
-    .creator-card {
-        max-width: 100%; /* Full width */
-    }
-
-    .custom-scrollbar {
-        right: 5px; /* Move closer to edge */
-        width: 5px; /* Make thinner */
-    }
-     .scrollbar-handle {
-        left: -1px; /* Adjust handle centering */
-        width: 7px;
-     }
-
-     .modal-content {
-        padding: 20px; /* Smaller padding */
-     }
-
-     .modal-content h3 {
-        font-size: 1.5em; /* Smaller heading */
-     }
-
-     .setting-row {
-         flex-direction: column; /* Stack label and control */
-         align-items: flex-start;
-         gap: 5px; /* Space between stacked items */
-     }
-
-     .setting-row label {
-         margin-right: 0; /* Remove right margin */
-     }
-
-     .setting-toggle {
-         width: 100%; /* Full width toggle */
-     }
-
-     .custom-slider {
-         width: 100%; /* Full width slider */
-          min-width: auto;
-     }
-
+    .creators-list { flex-direction: column; gap: 20px; }
+    .creator-card { max-width: 100%; }
+    .custom-scrollbar { right: 5px; width: 5px; }
+    .scrollbar-handle { left: -1px; width: 7px; }
+    .modal-content { padding: 20px; }
+    .modal-content h3 { font-size: 1.5em; }
+    .setting-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+    .setting-row label { margin-right: 0; }
+    .setting-toggle { width: 100%; }
+    .custom-slider { width: 100%; min-width: auto; }
 }
 
 @media (max-width: 480px) {
-     header {
-         padding: 10px;
-     }
-     .logo {
-         font-size: 1em;
-     }
-     nav ul {
-         flex-direction: column;
-         gap: 5px;
-     }
-     nav a {
-         font-size: 0.9em;
-     }
+     header { padding: 10px; }
+     .logo { font-size: 1em; }
+     nav ul { flex-direction: column; gap: 5px; }
+     nav a { font-size: 0.9em; }
+     .realm-banner { max-width: 100%; }
+    .hero-section p { font-size: 0.9em; }
+     .button { padding: 10px 15px; font-size: 0.9em; }
 
-     /* Adjust banner size further on smaller screens */
-     .realm-banner {
-        max-width: 100%;
-     }
-
-     /* Removed hero h1/bb logo specific styles */
-
-    .hero-section p {
-        font-size: 0.9em;
-    }
-
-     .button {
-        padding: 10px 15px;
-        font-size: 0.9em;
-     }
-
-     .features-section h3 { font-size: 1.5em; } /* No h3 in new feature layout, but keep for potential future use */
-     .mod-screenshot-block h4 { font-size: 1.2em; } /* No h4 in new feature layout, but keep for potential future use */
-     .feature-text p { font-size: 1em; } /* Adjust text size */
-      .feature-text strong { font-size: 1.1em; }
-
+     /* Adjust feature text sizes further for very small screens */
+     .feature-text p { font-size: 1em; }
+     .feature-text strong { font-size: 1.2em; }
 
      .creators-section h2 { font-size: 1.8em;}
      .creator-card h3 { font-size: 1.2em;}
-
      footer { font-size: 0.8em;}
-
-     /* Hide scrollbar on very small screens if desired */
-     /* .custom-scrollbar { display: none; } */
 }
