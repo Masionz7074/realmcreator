@@ -223,13 +223,16 @@ section {
 }
 
 .feature-item {
-    flex-basis: 45%; /* Allow items to take up about half the container width */
-    max-width: 450px; /* Max width for consistency */
+    /* Base styles */
+    flex-basis: auto; /* Allow flex items to determine size hint */
+    max-width: none; /* Remove general max-width */
 }
 
 .mod-menu-block {
-    margin-top: 100px; /* Adjust to create the staggered effect */
-    text-align: right; /* Align text right */
+    flex-basis: 400px; /* Specific size for text block */
+    max-width: 400px;
+    margin-top: 100px; /* Creates staggered effect */
+    text-align: right; /* Text alignment */
 }
 
 .mod-menu-block h3 {
@@ -243,49 +246,54 @@ section {
 
 
 .mod-screenshot-block {
-    margin-top: 0; /* Align to top of flex container initially */
+    flex-basis: 350px; /* Specific size for small screenshot block */
+    max-width: 350px;
+    margin-top: 0; /* Aligned with grid top */
+    text-align: left; /* Ensure text inside is left aligned */
 }
 
 .mod-screenshot-block img {
-    max-width: 100%;
+    max-width: 90%; /* Make image smaller than its container */
     height: auto;
-    border: 1px solid #555; /* Optional border around screenshot */
-    box-shadow: 5px 5px 10px rgba(0,0,0,0.3); /* Optional shadow */
+    border: 1px solid #555;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
     margin-bottom: 15px;
+     display: block; /* Needed for margin auto */
+     margin-left: auto; /* Center image within its container */
+     margin-right: auto;
 }
 
-.mod-screenshot-block h4 {
-    font-size: 1.5em;
-    margin-bottom: 5px;
-}
-
+.mod-screenshot-block h4,
 .mod-screenshot-block p {
-    font-size: 1em;
-    color: #ccc; /* Slightly lighter text */
+    text-align: center; /* Center the text below the centered image */
 }
 
 .main-screenshot-block {
-     flex-basis: 60%; /* Larger width for the second screenshot */
-     max-width: 600px;
-     margin-top: -80px; /* Pull it up significantly */
-     margin-left: auto; /* Push it to the right */
-     margin-right: 0;
-     position: relative; /* Needed for z-index */
-     z-index: 1; /* Ensure it's behind the mod menu text block visually */
+    flex-basis: 100%; /* Make it take full row when wrapped */
+    max-width: 600px; /* Limit its max width */
+    margin-top: -80px; /* Pull it up to overlap */
+    margin-left: auto; /* Center it */
+    margin-right: auto;
+    position: relative; /* For z-index */
+    z-index: 1; /* Ensure it's behind the text block visually */
+     text-align: center; /* Center image if it's smaller than container */
 }
 
 .main-screenshot-block img {
-    max-width: 100%;
+    max-width: 100%; /* Image takes full width of its container (up to container's max-width) */
     height: auto;
-    border: 1px solid #555; /* Optional border */
-     box-shadow: 5px 5px 10px rgba(0,0,0,0.3); /* Optional shadow */
+    border: 1px solid #555;
+     box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+     display: block; /* Needed for margin auto */
+     margin-left: auto; /* Center image within its container */
+     margin-right: auto;
 }
 
-/* Adjustments for features grid flow */
-/* The layout in the image is tricky. Let's refine the flex basis and order */
-.features-grid > .mod-menu-block { order: 2; }
-.features-grid > .mod-screenshot-block { order: 1; }
-.features-grid > .main-screenshot-block { order: 3; flex-basis: 90%; margin-left: auto; margin-right: auto; margin-top: -50px; } /* Center and pull up the large screenshot */
+/* Adjustments for features grid flow on large screens */
+/* Order determines row placement if items wrap */
+.features-grid > .mod-menu-block { order: 1; } /* Text block first */
+.features-grid > .mod-screenshot-block { order: 2; } /* Small screenshot block second */
+.features-grid > .main-screenshot-block { order: 3; } /* Large screenshot block last (should wrap) */
 
 
 /* --- Creators Section Specific Styles --- */
@@ -607,14 +615,33 @@ footer {
     }
 
     .feature-item {
-        flex-basis: 100%; /* Full width */
-        max-width: 100%;
+        flex-basis: 100%; /* Full width when stacked */
+        max-width: 100%; /* Remove max-width limits */
         text-align: left; /* Reset text align */
         margin-top: 0 !important; /* Remove staggered margin */
     }
 
     .mod-menu-block {
          text-align: left; /* Align text left on small screens */
+         max-width: 100%; /* Remove max-width */
+         flex-basis: auto; /* Allow content size */
+    }
+
+
+    .mod-screenshot-block {
+         max-width: 100%; /* Remove max-width */
+         flex-basis: auto; /* Allow content size */
+         text-align: left; /* Ensure text is left aligned */
+    }
+
+    .mod-screenshot-block img {
+        max-width: 100%; /* Image takes full width of container again */
+        margin-left: auto; /* Keep centered if container is smaller than screen */
+        margin-right: auto;
+    }
+     .mod-screenshot-block h4,
+    .mod-screenshot-block p {
+        text-align: left; /* Align text left below image */
     }
 
 
@@ -623,12 +650,14 @@ footer {
         margin-left: auto;
         margin-right: auto;
         flex-basis: 100%; /* Full width */
+        max-width: 100%; /* Remove max-width limit */
+        text-align: center; /* Keep centered */
     }
 
     /* Adjust order for stacking layout */
-    .features-grid > .mod-menu-block { order: 1; }
-    .features-grid > .mod-screenshot-block { order: 2; }
-    .features-grid > .main-screenshot-block { order: 3; }
+    .features-grid > .mod-menu-block { order: 1; } /* Text first */
+    .features-grid > .mod-screenshot-block { order: 2; } /* Small screenshot second */
+    .features-grid > .main-screenshot-block { order: 3; } /* Large screenshot last */
 
 
     .creators-list {
