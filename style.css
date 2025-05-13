@@ -17,18 +17,17 @@
 
 body {
     font-family: 'MinecraftTen', 'Pixelify Sans', 'Press Start 2P', Arial, sans-serif;
-    background-color: #fff; /* Default light background */
-    color: #333; /* Default light theme text color */
+    background-color: #fff;
+    color: #333;
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark Theme Styles */
 body.dark-theme {
-    background-color: #222; /* Dark background for the entire page */
-    color: #e0e0e0; /* Lighter default text color for dark theme */
+    background-color: #222;
+    color: #e0e0e0;
 }
 
 
@@ -36,14 +35,14 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #f0f0f0; /* Light theme header */
+    background-color: #f0f0f0;
     padding: 10px 20px;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
 }
 body.dark-theme header {
-    background-color: #333; /* Dark theme header */
+    background-color: #333;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -58,47 +57,24 @@ body.dark-theme header {
 .logo {
     font-size: 1.2em;
     font-weight: bold;
-    color: #333; /* Light theme logo color */
+    color: #333;
     margin-right: 15px;
     transition: color 0.3s ease;
 }
 body.dark-theme .logo {
-    color: #e0e0e0; /* Dark theme logo color */
+    color: #e0e0e0;
 }
 
 
 .music-player-controls {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px; /* Increased gap a bit as play/pause is removed */
     margin-right: auto;
 }
 
-.player-button {
-    background-color: #ddd;
-    border: 2px solid #555;
-    color: #333;
-    font-size: 1.1em;
-    padding: 4px 8px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-family: 'MinecraftTen', Arial, sans-serif;
-    min-width: 30px;
-    text-align: center;
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-}
-.player-button:hover {
-    background-color: #ccc;
-}
-body.dark-theme .player-button {
-    background-color: #444;
-    border-color: #777;
-    color: #e0e0e0;
-}
-body.dark-theme .player-button:hover {
-    background-color: #555;
-}
-
+/* Removed .player-button specific styles if they were only for play/pause */
+/* .player-button-img will style next/prev */
 
 .player-button-img {
     background-color: transparent;
@@ -127,7 +103,7 @@ body.dark-theme .player-button-img img {
 #current-song-name {
     font-size: 0.9em;
     color: #555;
-    margin-left: 5px;
+    margin-left: 8px; /* Adjusted margin */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -174,12 +150,12 @@ body.dark-theme nav a:hover {
     line-height: 0;
 }
 #theme-toggle-img {
-    width: 32px; /* Size for theme toggle images */
+    width: 32px;
     height: auto;
     display: block;
 }
 #theme-toggle-button:hover #theme-toggle-img {
-    opacity: 0.8; /* Simple hover for theme toggle */
+    opacity: 0.8;
 }
 
 
@@ -532,7 +508,7 @@ body.dark-theme .modal-content {
     display: block;
 }
 .setting-toggle-button:hover img {
-    opacity: 0.8; /* Simple hover for all toggles */
+    opacity: 0.8;
 }
 
 
@@ -698,7 +674,7 @@ body.dark-theme .custom-slider::-moz-range-thumb {
      .logo { font-size: 1em; }
      nav ul { flex-direction: column; gap: 5px; }
      nav a { font-size: 0.9em; }
-     .theme-toggle-container { /* Ensure theme toggle stays in line on smallest screens */
+     .theme-toggle-container {
          margin-left: auto;
      }
      .music-player-controls {
