@@ -69,12 +69,9 @@ body.dark-theme .logo {
 .music-player-controls {
     display: flex;
     align-items: center;
-    gap: 10px; /* Increased gap a bit as play/pause is removed */
+    gap: 10px;
     margin-right: auto;
 }
-
-/* Removed .player-button specific styles if they were only for play/pause */
-/* .player-button-img will style next/prev */
 
 .player-button-img {
     background-color: transparent;
@@ -103,7 +100,7 @@ body.dark-theme .player-button-img img {
 #current-song-name {
     font-size: 0.9em;
     color: #555;
-    margin-left: 8px; /* Adjusted margin */
+    margin-left: 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -174,11 +171,15 @@ section {
     border-bottom: 5px solid rgba(0, 0, 0, 0.3);
     transition: border-bottom-color 0.3s ease;
 }
+/* Remove bottom border from the last section element on the page */
 section:last-of-type {
     border-bottom: none;
 }
 body.dark-theme section {
     border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+body.dark-theme section:last-of-type {
+    border-bottom: none;
 }
 
 
@@ -390,6 +391,53 @@ body.dark-theme .creator-card img {
 .creator-card li {
     margin-bottom: 5px;
 }
+
+/* Video Section Styles */
+.video-section {
+    /* Using background1 for consistency, or choose a new one/plain color */
+    /* background-color: #1a1a1a; /* Example: a very dark background */
+    color: white;
+}
+
+.video-section h2 {
+    font-size: 2.5em; /* Match other section titles */
+    margin-bottom: 30px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+body.dark-theme .video-section h2 {
+    color: #e0e0e0; /* Ensure visibility in dark mode */
+}
+
+.video-wrapper {
+    width: 100%;
+    max-width: 854px; /* A common 16:9 video width (e.g., for 480p height) */
+    margin: 20px auto; /* Center the wrapper and add some margin */
+    border: 3px solid #555;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: border-color 0.3s ease;
+}
+body.dark-theme .video-wrapper {
+    border-color: #777;
+}
+
+.video-container { /* For maintaining aspect ratio */
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio ( (9 / 16) * 100% ) */
+    height: 0;
+    overflow: hidden;
+    background-color: #000; /* Black background behind iframe while loading */
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* Ensure no iframe border */
+}
+
 
 footer {
     background-color: #f0f0f0;
@@ -672,10 +720,10 @@ body.dark-theme .custom-slider::-moz-range-thumb {
 
 @media (max-width: 480px) {
      .logo { font-size: 1em; }
-     nav ul { flex-direction: column; gap: 5px; }
+     nav ul { flex-direction: column; gap: 5px; align-items: center; } /* Center nav items */
      nav a { font-size: 0.9em; }
      .theme-toggle-container {
-         margin-left: auto;
+         margin-left: 0; /* Remove auto margin to allow centering with other nav items */
      }
      .music-player-controls {
          flex-wrap: wrap;
