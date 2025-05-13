@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realm Creator</title> <!-- Updated title -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Link to Custom Minecraft-Themed Font via @font-face in CSS -->
+    <!-- Remember to place font files (e.g., minecraftten.woff, minecraftten.woff2)
+         in a 'fonts' folder in your project directory. -->
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <!-- Changed logo text -->
+            <div class="logo">Realm Creator</div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link clickable-element">Home</a></li>
+                    <li><a href="#" class="nav-link clickable-element">Download</a></li>
+                    <!-- Updated Discord link -->
+                    <li><a href="https://discord.gg/nYfHty2AWp" class="nav-link clickable-element" target="_blank">Discord</a></li>
+                    <li><a href="#" class="nav-link clickable-element" id="settings-link">Settings</a></li>
+                    <li><a href="#" class="nav-link clickable-element">FAQ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-section background1">
+        <div class="section-content centered-content">
+            <!-- Replaced BB logo and H1 with banner image -->
+            <img src="image/realmbanner.png" alt="Realm Creator Banner" class="realm-banner">
+            <!-- Kept the paragraph as is, might need manual wording adjustment -->
+            <p>is the most powerful, customizable, useful and free Texture Pack available on the majority of platforms!</p>
+            <div class="buttons">
+                <a href="#" class="button download-button clickable-element">Download</a>
+                <!-- Updated Discord button link -->
+                <a href="https://discord.gg/nYfHty2AWp" class="button discord-button clickable-element" target="_blank">Discord</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section background2">
+        <div class="section-content">
+            <div class="features-grid">
+                <div class="feature-item mod-menu-block">
+                    <h3>MOD MENU</h3>
+                    <p>Includes many adjustable modules and options to customize default HUD elements!</p>
+                </div>
+                <div class="feature-item mod-screenshot-block">
+                     <img src="image/mod_menu_screenshot.png" alt="Mod Menu Screenshot">
+                     <h4>CUSTOM UIS</h4>
+                     <p>Most main screens have been rewritten to hatch new upcoming Minecraft UI, the OneUI.</p>
+                </div>
+                 <div class="feature-item main-screenshot-block">
+                     <img src="image/main_menu_screenshot.png" alt="Main Menu Screenshot">
+                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="creators-section background3">
+        <div class="section-content centered-content">
+            <h2>CREATORS</h2>
+            <div class="creators-list">
+                <!-- Creator 1: Midful the cat -->
+                <div class="creator-card">
+                    <img src="image/ambro_head.png" alt="Midful the cat's Head">
+                    <h3>Midful the cat</h3> <!-- Updated name -->
+                    <ul>
+                        <li>. Realm Creator Founder</li>
+                        <li>. Creator of Discord</li>
+                    </ul>
+                </div>
+                 <!-- Creator 2: Muskiei -->
+                 <div class="creator-card">
+                    <img src="image/idkrad_head.png" alt="Muskiei's Head">
+                    <h3>Muskiei</h3> <!-- Updated name -->
+                    <ul>
+                        <li>. Website Maker</li>
+                    </ul>
+                </div>
+                 <!-- Creator 3: Founder Kitty -->
+                 <div class="creator-card">
+                    <img src="image/kitty.png" alt="Founder Kitty's Head">
+                    <h3>Founder Kitty</h3>
+                    <ul>
+                         <li>. Founder</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <!-- Changed footer text -->
+            <p>Copyright &copy; Realm Creator | All rights reserved | Not affiliated with Mojang Studios</p>
+        </div>
+    </footer>
+
+    <!-- Visual Custom Scrollbar Placeholder -->
+    <div class="custom-scrollbar">
+         <div class="scrollbar-track"></div>
+         <div class="scrollbar-handle"></div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Settings</h3>
+
+            <div class="setting-row">
+                <label for="music-toggle">Music:</label>
+                <button id="music-toggle" class="setting-toggle clickable-element">On</button>
+            </div>
+
+             <div class="setting-row">
+                <label for="music-volume">Music Volume:</label>
+                <input type="range" id="music-volume" min="0" max="100" value="50" class="custom-slider clickable-element">
+            </div>
+
+            <div class="setting-row">
+                <label for="click-toggle">Click Sound:</label>
+                <button id="click-toggle" class="setting-toggle clickable-element">On</button>
+            </div>
+
+             <div class="setting-row">
+                <label for="click-volume">Click Volume:</label>
+                <input type="range" id="click-volume" min="0" max="100" value="100" class="custom-slider clickable-element">
+            </div>
+
+            <button id="close-settings" class="button clickable-element">Close</button>
+        </div>
+    </div>
+
+
+    <!-- Audio Elements (Hidden) -->
+    <audio id="minecraft-click" src="sounds/minecraftclick.mp3" preload="auto"></audio>
+    <audio id="main-music" src="sounds/mainmusic.mp3" loop preload="auto"></audio>
+
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
+
+</body>
+</html>
