@@ -1,267 +1,237 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Audio elements
     const clickSound = document.getElementById('minecraft-click');
-    const mainMusic = document.getElementById('main-music');
-
-    // Settings elements
-    const settingsLink = document.getElementById('settings-link');
+    const mainMusicPlayer = document.getElementById('main-music-player');
+    const settingsLinkNav = document.getElementById('settings-link-nav');
     const settingsModal = document.getElementById('settings-modal');
     const closeSettingsButton = document.getElementById('close-settings');
     const musicToggle = document.getElementById('music-toggle');
     const musicVolumeSlider = document.getElementById('music-volume');
     const clickToggle = document.getElementById('click-toggle');
     const clickVolumeSlider = document.getElementById('click-volume');
+    const prevSongButton = document.getElementById('prev-song');
+    const nextSongButton = document.getElementById('next-song');
 
-    // State variables (initial state, will be updated by localStorage)
-    // Default values if nothing is saved yet
+    const songPlaylist = [
+        'sounds/mainmenu.mp3',
+        'sounds/mainmenu1.mp3',
+        'sounds/mainmenu2.mp3'
+    ];
+    let currentSongIndex = 0;
     let isMusicEnabled = true;
     let isClickSoundEnabled = true;
-    let musicVolume = 0.5; // 0.0 to 1.0
-    let clickVolume = 1.0; // 0.0 to 1.0
+    let musicVolume = 0.5;
+    let clickVolume = 1.0;
+    let musicAttempted = false;
 
-    // --- Load Settings from localStorage ---
-    const loadSettings = () => {
-        const savedMusicEnabled = localStorage.getItem('isMusicEnabled');
-        const savedClickEnabled = localStorage.getItem('isClickSoundEnabled');
-        const savedMusicVolume = localStorage.getItem('musicVolume');
-        const savedClickVolume = localStorage.getItem('clickVolume');
-
-        // Apply music enabled state
-        if (savedMusicEnabled !== null) {
-            isMusicEnabled = savedMusicEnabled === 'true'; // localStorage stores boolean as string
-        }
-        musicToggle.textContent = isMusicEnabled ? 'On' : 'Off';
-        // If music was disabled, ensure it's paused initially
-        if (!isMusicEnabled && mainMusic && !mainMusic.paused) {
-            mainMusic.pause();
-        }
-
-
-        // Apply click sound enabled state
-        if (savedClickEnabled !== null) {
-            isClickSoundEnabled = savedClickEnabled === 'true';
-        }
-        clickToggle.textContent = isClickSoundEnabled ? 'On' : 'Off';
-
-
-        // Apply music volume
-        if (savedMusicVolume !== null) {
-            const parsedVolume = parseFloat(savedMusicVolume);
-            if (!isNaN(parsedVolume)) { // Check if parsed value is a valid number
-                musicVolume = parsedVolume;
-            } else {
-                musicVolume = 0.5; // Reset to default if invalid
+    const loadSong = (index) => {
+        if (mainMusicPlayer && songPlaylist && songPlaylist[index]) {
+            mainMusicPlayer.src = songPlaylist[index];
+            mainMusicPlayer.volume = musicVolume;
+            if (isMusicEnabled && musicAttempted) {
+                mainMusicPlayer.play().catch(e => console.error("Error playing loaded song:", e));
             }
         }
-         if (mainMusic) {
-            mainMusic.volume = musicVolume; // Apply volume to audio element
-         }
-         musicVolumeSlider.value = musicVolume * 100; // Update slider position (0-100)
-
-
-        // Apply click volume
-        if (savedClickVolume !== null) {
-             const parsedVolume = parseFloat(savedClickVolume);
-             if (!isNaN(parsedVolume)) { // Check if parsed value is a valid number
-                clickVolume = parsedVolume;
-             } else {
-                clickVolume = 1.0; // Reset to default if invalid
-             }
-        }
-        // clickSound volume is applied just before playing
-        clickVolumeSlider.value = clickVolume * 100; // Update slider position (0-100)
-
-        console.log('Settings loaded:', {isMusicEnabled, isClickSoundEnabled, musicVolume, clickVolume}); // For debugging
     };
 
-     // --- Save Settings to localStorage ---
+    const playNextSong = () => {
+        currentSongIndex = (currentSongIndex + 1) % songPlaylist.length;
+        loadSong(currentSongIndex);
+    };
+
+    const playPrevSong = () => {
+        currentSongIndex = (currentSongIndex - 1 + songPlaylist.length) % songPlaylist.length;
+        loadSong(currentSongIndex);
+    };
+
+    if (mainMusicPlayer) {
+        mainMusicPlayer.addEventListener('ended', playNextSong);
+    }
+
+    if (prevSongButton) {
+        prevSongButton.addEventListener('click', playPrevSong);
+    }
+    if (nextSongButton) {
+        nextSongButton.addEventListener('click', playNextSong);
+    }
+
+    const loadSettings = () => {
+        const savedMusicEnabled = localStorage.getItem('isMusicEnabled');
+        if (savedMusicEnabled !== null) isMusicEnabled = savedMusicEnabled === 'true';
+        musicToggle.textContent = isMusicEnabled ? 'On' : 'Off';
+        musicToggle.setAttribute('data-state', isMusicEnabled ? 'on' : 'off');
+        if (!isMusicEnabled && mainMusicPlayer && !mainMusicPlayer.paused) mainMusicPlayer.pause();
+
+        const savedClickEnabled = localStorage.getItem('isClickSoundEnabled');
+        if (savedClickEnabled !== null) isClickSoundEnabled = savedClickEnabled === 'true';
+        clickToggle.textContent = isClickSoundEnabled ? 'On' : 'Off';
+        clickToggle.setAttribute('data-state', isClickSoundEnabled ? 'on' : 'off');
+
+        const savedMusicVolume = localStorage.getItem('musicVolume');
+        if (savedMusicVolume !== null) {
+            const parsed = parseFloat(savedMusicVolume);
+            if (!isNaN(parsed)) musicVolume = parsed; else musicVolume = 0.5;
+        }
+        if (mainMusicPlayer) mainMusicPlayer.volume = musicVolume;
+        musicVolumeSlider.value = musicVolume * 100;
+
+        const savedClickVolume = localStorage.getItem('clickVolume');
+        if (savedClickVolume !== null) {
+            const parsed = parseFloat(savedClickVolume);
+            if (!isNaN(parsed)) clickVolume = parsed; else clickVolume = 1.0;
+        }
+        clickVolumeSlider.value = clickVolume * 100;
+    };
+
     const saveSettings = () => {
         localStorage.setItem('isMusicEnabled', isMusicEnabled);
         localStorage.setItem('isClickSoundEnabled', isClickSoundEnabled);
         localStorage.setItem('musicVolume', musicVolume);
         localStorage.setItem('clickVolume', clickVolume);
-         console.log('Settings saved:', {isMusicEnabled, isClickSoundEnabled, musicVolume, clickVolume}); // For debugging
     };
 
-
-    // --- Background Music Autoplay (Modified) ---
-    // Attempt to play music on first user interaction *unless* it's disabled
-    // Using the 'once' option means this listener removes itself after the first trigger.
-    let musicAttempted = false; // Flag to only attempt autoplay once by this mechanism
-
     document.body.addEventListener('click', () => {
-        // Only attempt if music is enabled, the audio element exists, and it's currently paused
-        if (!musicAttempted && isMusicEnabled && mainMusic && mainMusic.paused) {
-             mainMusic.play().then(() => {
-                console.log('Music started by user interaction');
-                musicAttempted = true; // Mark attempt as successful or tried
-            }).catch(error => {
-                // Autoplay was prevented. User needs to interact more directly.
-                console.log('Music autoplay prevented:', error);
-                musicAttempted = true; // Mark attempt as tried even if failed
-                 // You could add a visible "Play Music" button here if needed
+        if (!musicAttempted && isMusicEnabled && mainMusicPlayer && mainMusicPlayer.paused) {
+            loadSong(currentSongIndex);
+            mainMusicPlayer.play().then(() => {
+                musicAttempted = true;
+            }).catch(e => {
+                console.error("Initial music play prevented:", e);
+                musicAttempted = true;
             });
         }
-    }, { once: true }); // Use { once: true } to remove the listener after the first click
+    }, { once: true });
 
-
-     // --- Click Sound Effect ---
-    // Add a class to elements that should make a click sound (e.g., nav links, buttons, modal controls)
     const clickableElements = document.querySelectorAll('.clickable-element');
-
     clickableElements.forEach(element => {
-        element.addEventListener('click', (event) => {
-            // Check if the click sound is enabled and the audio element exists before playing
+        element.addEventListener('click', () => {
             if (isClickSoundEnabled && clickSound) {
-
-                // Optional: Prevent click sound for interactions within the modal content itself
-                // if (event.target.closest('.modal-content') && event.target.id !== 'close-settings') return;
-
-                // Set volume just before playing
                 clickSound.volume = clickVolume;
-
-                // Reset the sound to the beginning so it can be played multiple times quickly
                 clickSound.currentTime = 0;
-                clickSound.play().catch(error => {
-                    console.log('Click sound playback prevented:', error);
-                    // This might happen if the sound hasn't loaded or is blocked
-                });
+                clickSound.play().catch(e => console.error("Click sound error:", e));
             }
         });
     });
 
-    // --- Settings Modal Functionality ---
+    const openSettingsModal = () => {
+        if (settingsModal) settingsModal.style.display = 'flex';
+    };
+    const closeSettingsModal = (updateHash = true) => {
+        if (settingsModal) settingsModal.style.display = 'none';
+        if (updateHash && window.location.hash === '#settings') {
+            history.pushState("", document.title, window.location.pathname + window.location.search);
+        }
+    };
 
-    // Open Modal
-    if (settingsLink && settingsModal) {
-        settingsLink.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default link behavior
-            settingsModal.style.display = 'flex'; // Show the modal using flexbox for centering
-        });
-    }
-
-
-    // Close Modal
-    if (closeSettingsButton && settingsModal) {
-        closeSettingsButton.addEventListener('click', () => {
-            settingsModal.style.display = 'none'; // Hide the modal
-        });
-
-        // Close Modal by clicking outside the modal content
-        settingsModal.addEventListener('click', (event) => {
-            // Check if the click occurred directly on the overlay (not inside the modal-content)
-            if (event.target === settingsModal) {
-                settingsModal.style.display = 'none'; // Hide the modal
-            }
-        });
-    }
-
-
-    // --- Settings Controls Functionality ---
-
-    // Music Toggle
-    if (musicToggle && mainMusic) {
-        musicToggle.addEventListener('click', () => {
-            isMusicEnabled = !isMusicEnabled; // Toggle state
-            musicToggle.textContent = isMusicEnabled ? 'On' : 'Off'; // Update button text
-            // Apply a data attribute or class for CSS styling the button differently
-             musicToggle.setAttribute('data-state', isMusicEnabled ? 'on' : 'off');
-
-
-            if (isMusicEnabled) {
-                 // Attempt to play only if enabled AND music is currently paused
-                 if (mainMusic.paused) {
-                     mainMusic.play().catch(error => {
-                         console.log('Failed to resume music:', error);
-                         // This might fail if user hasn't interacted enough yet
-                     });
-                 }
+    const handleHashChange = () => {
+        const hash = window.location.hash;
+        if (hash === '#settings') {
+            openSettingsModal();
+        } else {
+            closeSettingsModal(false);
+            if (hash === '#home' || hash === '') {
+                const homeSection = document.getElementById('home');
+                if (homeSection) homeSection.scrollIntoView({ behavior: 'smooth' });
             } else {
-                mainMusic.pause(); // Pause if disabled
+                const targetSection = document.querySelector(hash);
+                if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth' });
             }
-            saveSettings(); // Save the new state
+        }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange();
+
+    if (settingsLinkNav) {
+        settingsLinkNav.addEventListener('click', (event) => {
+            if (window.location.hash !== '#settings') {
+                window.location.hash = '#settings';
+            } else {
+                openSettingsModal();
+            }
+            event.preventDefault();
         });
     }
 
-
-    // Music Volume Slider
-    if (musicVolumeSlider && mainMusic) {
-        musicVolumeSlider.addEventListener('input', (event) => {
-            musicVolume = event.target.value / 100; // Convert 0-100 to 0.0-1.0
-            mainMusic.volume = musicVolume; // Apply volume
-            saveSettings(); // Save the new volume
+    if (closeSettingsButton) {
+        closeSettingsButton.addEventListener('click', () => closeSettingsModal());
+    }
+    if (settingsModal) {
+        settingsModal.addEventListener('click', (event) => {
+            if (event.target === settingsModal) closeSettingsModal();
         });
-         // Also update volume on 'change' just in case 'input' isn't supported everywhere
-         musicVolumeSlider.addEventListener('change', (event) => {
-            musicVolume = event.target.value / 100;
-            mainMusic.volume = musicVolume;
+    }
+
+    if (musicToggle && mainMusicPlayer) {
+        musicToggle.addEventListener('click', () => {
+            isMusicEnabled = !isMusicEnabled;
+            musicToggle.textContent = isMusicEnabled ? 'On' : 'Off';
+            musicToggle.setAttribute('data-state', isMusicEnabled ? 'on' : 'off');
+            if (isMusicEnabled) {
+                if (mainMusicPlayer.paused) {
+                    if(!musicAttempted){
+                        musicAttempted = true;
+                        loadSong(currentSongIndex);
+                    } else {
+                         mainMusicPlayer.play().catch(e => console.error("Error resuming music:", e));
+                    }
+                }
+            } else {
+                mainMusicPlayer.pause();
+            }
             saveSettings();
-         });
+        });
     }
 
+    if (musicVolumeSlider && mainMusicPlayer) {
+        musicVolumeSlider.addEventListener('input', (event) => {
+            musicVolume = event.target.value / 100;
+            mainMusicPlayer.volume = musicVolume;
+            saveSettings();
+        });
+        musicVolumeSlider.addEventListener('change', (event) => {
+            musicVolume = event.target.value / 100;
+            mainMusicPlayer.volume = musicVolume;
+            saveSettings();
+        });
+    }
 
-    // Click Sound Toggle
-    if (clickToggle && clickSound) { // Ensure clickSound element exists
+    if (clickToggle && clickSound) {
         clickToggle.addEventListener('click', () => {
-            isClickSoundEnabled = !isClickSoundEnabled; // Toggle state
-            clickToggle.textContent = isClickSoundEnabled ? 'On' : 'Off'; // Update button text
-             // Apply a data attribute or class for CSS styling the button differently
+            isClickSoundEnabled = !isClickSoundEnabled;
+            clickToggle.textContent = isClickSoundEnabled ? 'On' : 'Off';
             clickToggle.setAttribute('data-state', isClickSoundEnabled ? 'on' : 'off');
-
-
-            // Play a click sound immediately when toggling ON, if enabled
-            if (isClickSoundEnabled) { // Only play if toggled ON
-                 clickSound.volume = clickVolume; // Use current click volume
-                 clickSound.currentTime = 0;
-                 clickSound.play().catch(error => console.log('Click sound on toggle play prevented:', error));
+            if (isClickSoundEnabled) {
+                clickSound.volume = clickVolume;
+                clickSound.currentTime = 0;
+                clickSound.play().catch(e => console.error("Click sound on toggle error:", e));
             }
-
-            saveSettings(); // Save the new state
+            saveSettings();
         });
     } else if (clickToggle) {
-         // If click sound element doesn't exist, maybe disable the toggle
-         clickToggle.disabled = true;
-         clickToggle.textContent = 'N/A';
+        clickToggle.disabled = true;
+        clickToggle.textContent = 'N/A';
     }
 
-
-    // Click Volume Slider
-    if (clickVolumeSlider && clickSound) { // Ensure clickSound element exists
+    if (clickVolumeSlider && clickSound) {
         clickVolumeSlider.addEventListener('input', (event) => {
-            clickVolume = event.target.value / 100; // Convert 0-100 to 0.0-1.0
-            // Volume is applied to clickSound *before* playing in the click handler
-            saveSettings(); // Save the new volume
-
-            // Optional: Play a preview sound while dragging the slider, if enabled
-             if (isClickSoundEnabled) {
-                 clickSound.volume = clickVolume; // Use the volume being set
-                  // Don't reset currentTime here, let the 'change' event handle a clean play
-                 // clickSound.currentTime = 0; // Avoid rapid re-starts while dragging
-                 // clickSound.play().catch(error => console.log('Click sound on slider preview prevented:', error));
-             }
+            clickVolume = event.target.value / 100;
+            saveSettings();
         });
-         // Play a preview sound when the user finishes dragging the slider, if enabled
-         clickVolumeSlider.addEventListener('change', (event) => {
-             if (isClickSoundEnabled) {
-                 clickSound.volume = clickVolume; // Use the final volume
-                  clickSound.currentTime = 0; // Reset for a clean play after drag
-                  clickSound.play().catch(error => console.log('Click sound on slider change prevented:', error));
-             }
-         });
+        clickVolumeSlider.addEventListener('change', (event) => {
+            clickVolume = event.target.value / 100;
+            if (isClickSoundEnabled) {
+                clickSound.volume = clickVolume;
+                clickSound.currentTime = 0;
+                clickSound.play().catch(e => console.error("Click sound on slider change error:", e));
+            }
+            saveSettings();
+        });
     } else if (clickVolumeSlider) {
-        // If click sound element doesn't exist, maybe disable the slider
         clickVolumeSlider.disabled = true;
     }
 
-
-    // --- Initial Load ---
-    // Load settings from localStorage when the page first loads
     loadSettings();
-
-    // Initial state update for toggle buttons based on loaded settings
-    // Done inside loadSettings now, but good to ensure
-     if(musicToggle) musicToggle.setAttribute('data-state', isMusicEnabled ? 'on' : 'off');
-     if(clickToggle) clickToggle.setAttribute('data-state', isClickSoundEnabled ? 'on' : 'off');
-
-
+    if(mainMusicPlayer && songPlaylist.length > 0) {
+        loadSong(currentSongIndex);
+    }
 });
