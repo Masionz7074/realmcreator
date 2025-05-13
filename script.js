@@ -33,21 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let musicVolume = 0.5;
     let clickVolume = 1.0;
     let hasUserInteracted = false;
-    let isDarkMode = false;
+    let isDarkMode = false; // Default to light mode
 
     const generalToggleImages = {
         on: 'image/toggle_on.png',
-        off: 'image/toggle_off.png',
-        onHover: 'image/toggle_on_hover.png',
-        offHover: 'image/toggle_off_hover.png'
+        off: 'image/toggle_off.png'
     };
 
-    const themeToggleImages = {
-        darkOn: 'image/toggle_on_dark.png',
-        darkOff: 'image/toggle_off_dark.png',
-        darkOnHover: 'image/toggle_on_dark_hover.png',
-        darkOffHover: 'image/toggle_off_dark_hover.png'
+    // These images are for the theme toggle button itself
+    const themeButtonVisuals = {
+        lightModeActive: 'image/toggle_off_dark.png', // Shows lightbulb (dark mode is off)
+        darkModeActive: 'image/toggle_on_dark.png'   // Shows moon (dark mode is on)
     };
+
 
     const updatePlayPauseButton = () => {
         if (mainMusicPlayer && playPauseButton) {
@@ -104,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (!isMusicEnabled) {
                  isMusicEnabled = true;
-                 setToggleImageSrc(musicToggleImg, isMusicEnabled, false, generalToggleImages.on, generalToggleImages.off, generalToggleImages.onHover, generalToggleImages.offHover);
+                 setToggleImageSrc(musicToggleImg, isMusicEnabled, generalToggleImages.on, generalToggleImages.off);
                  saveSettings();
             }
             if (mainMusicPlayer.paused) {
@@ -115,33 +113,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const setToggleImageSrc = (imgElement, isEnabled, isHovering, onImg, offImg, onHoverImg, offHoverImg) => {
+    const setToggleImageSrc = (imgElement, isEnabled, onImg, offImg) => {
         if (!imgElement) return;
-        if (isEnabled) {
-            imgElement.src = isHovering ? onHoverImg : onImg;
-        } else {
-            imgElement.src = isHovering ? offHoverImg : offImg;
-        }
+        imgElement.src = isEnabled ? onImg : offImg;
     };
 
     const applyTheme = () => {
         if (isDarkMode) {
             body.classList.add('dark-theme');
-            setToggleImageSrc(themeToggleImg, true, false, themeToggleImages.darkOn, themeToggleImages.darkOff, themeToggleImages.darkOnHover, themeToggleImages.darkOffHover);
+            if (themeToggleImg) themeToggleImg.src = themeButtonVisuals.darkModeActive;
         } else {
             body.classList.remove('dark-theme');
-            setToggleImageSrc(themeToggleImg, false, false, themeToggleImages.darkOn, themeToggleImages.darkOff, themeToggleImages.darkOnHover, themeToggleImages.darkOffHover);
+            if (themeToggleImg) themeToggleImg.src = themeButtonVisuals.lightModeActive;
         }
     };
 
     const loadSettings = () => {
         const savedMusicEnabled = localStorage.getItem('isMusicEnabled');
         if (savedMusicEnabled !== null) isMusicEnabled = savedMusicEnabled === 'true';
-        setToggleImageSrc(musicToggleImg, isMusicEnabled, false, generalToggleImages.on, generalToggleImages.off, generalToggleImages.onHover, generalToggleImages.offHover);
+        setToggleImageSrc(musicToggleImg, isMusicEnabled, generalToggleImages.on, generalToggleImages.off);
 
         const savedClickEnabled = localStorage.getItem('isClickSoundEnabled');
         if (savedClickEnabled !== null) isClickSoundEnabled = savedClickEnabled === 'true';
-        setToggleImageSrc(clickToggleImg, isClickSoundEnabled, false, generalToggleImages.on, generalToggleImages.off, generalToggleImages.onHover, generalToggleImages.offHover);
+        setToggleImageSrc(clickToggleImg, isClickSoundEnabled, generalToggleImages.on, generalToggleImages.off);
 
         const savedMusicVolume = localStorage.getItem('musicVolume');
         if (savedMusicVolume !== null) {
@@ -169,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadSong(currentSongIndex, false);
 
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
+        if (savedTheme === 'dark') { // Default to light if not 'dark'
             isDarkMode = true;
         } else {
             isDarkMode = false;
@@ -269,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (musicToggleButton && mainMusicPlayer && musicToggleImg) {
         musicToggleButton.addEventListener('click', () => {
             isMusicEnabled = !isMusicEnabled;
-            setToggleImageSrc(musicToggleImg, isMusicEnabled, false, generalToggleImages.on, generalToggleImages.off, generalToggleImages.onHover, generalToggleImages.offHover);
+            setToggleImageSrc(musicToggleImg, isMusicEnabled, generalToggleImages.on, generalToggleImages.off);
             if (isMusicEnabled) {
                 if (!hasUserInteracted) hasUserInteracted = true;
                 if (mainMusicPlayer.paused) {
@@ -281,8 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updatePlayPauseButton();
             saveSettings();
         });
-        musicToggleButton.addEventListener('mouseenter', () => setToggleImageSrc(musicToggleImg, isMusicEnabled, true, generalToggleImages.on, generalToggleImages.off, generalToggleImages.onHover, generalToggleImages.offHover));
-        musicToggleButton.addEventListener('mouseleave', () => setToggleImageSrc(musicToggleImg, isMusicEnabled, false, generalToggleImages.on, generalToggleImages.off, generalToggleImages.onHover, generalToggleImages.offHover));
     }
 
     if (musicVolumeSlider && mainMusicPlayer) {
@@ -301,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (clickToggleButton && clickSound && clickToggleImg) {
         clickToggleButton.addEventListener('click', () => {
             isClickSoundEnabled = !isClickSoundEnabled;
-            setToggleImageSrc(clickToggleImg, isClickSoundEnabled, false, generalToggleImages.on, generalToggleImages.off, generalToggleImages.onHover, generalToggleImages.offHover);
+            setToggleImageSrc(clickToggleImg, isClickSoundEnabled, generalToggleImages.on, generalToggleImages.off);
             if (isClickSoundEnabled) {
                 clickSound.volume = clickVolume;
                 clickSound.currentTime = 0;
@@ -309,9 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             saveSettings();
         });
-        clickToggleButton.addEventListener('mouseenter', () => setToggleImageSrc(clickToggleImg, isClickSoundEnabled, true, generalToggleImages.on, generalToggleImages.off, generalToggleImages.onHover, generalToggleImages.offHover));
-        clickToggleButton.addEventListener('mouseleave', () => setToggleImageSrc(clickToggleImg, isClickSoundEnabled, false, generalToggleImages.on, generalToggleImages.off, generalToggleImages.onHover, generalToggleImages.offHover));
-
     } else if (clickToggleButton) {
         clickToggleButton.disabled = true;
         if(clickToggleImg) clickToggleImg.alt = 'Click Sound N/A';
@@ -342,8 +331,6 @@ document.addEventListener('DOMContentLoaded', () => {
             applyTheme();
             saveSettings();
         });
-        themeToggleButton.addEventListener('mouseenter', () => setToggleImageSrc(themeToggleImg, isDarkMode, true, themeToggleImages.darkOn, themeToggleImages.darkOff, themeToggleImages.darkOnHover, themeToggleImages.darkOffHover));
-        themeToggleButton.addEventListener('mouseleave', () => setToggleImageSrc(themeToggleImg, isDarkMode, false, themeToggleImages.darkOn, themeToggleImages.darkOff, themeToggleImages.darkOnHover, themeToggleImages.darkOffHover));
     }
 
     loadSettings();
