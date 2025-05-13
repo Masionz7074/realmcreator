@@ -11,25 +11,29 @@
     <header>
         <div class="header-container">
             <div class="logo">Realm Creator</div>
-            <!-- Music Player Controls -->
             <div class="music-player-controls">
-                <button id="prev-song" class="clickable-element player-button"><</button>
-                <button id="next-song" class="clickable-element player-button">></button>
+                <button id="prev-song" class="clickable-element player-button-img"><img src="image/switch_dpad_left.png" alt="Previous Song"></button>
+                <button id="play-pause-song" class="clickable-element player-button">▶️</button>
+                <button id="next-song" class="clickable-element player-button-img"><img src="image/switch_dpad_right.png" alt="Next Song"></button>
+                <span id="current-song-name"></span>
             </div>
             <nav>
                 <ul>
-                    <!-- Updated href for hash navigation -->
                     <li><a href="#home" class="nav-link clickable-element">Home</a></li>
-                    <li><a href="#download" class="nav-link clickable-element">Download</a></li> <!-- Assuming #download section might exist or be added -->
+                    <li><a href="#download" class="nav-link clickable-element">Download</a></li>
                     <li><a href="https://discord.gg/nYfHty2AWp" class="nav-link clickable-element" target="_blank">Discord</a></li>
                     <li><a href="#settings" class="nav-link clickable-element" id="settings-link-nav">Settings</a></li>
-                    <li><a href="#faq" class="nav-link clickable-element">FAQ</a></li> <!-- Assuming #faq section might exist or be added -->
+                    <!-- Replaced FAQ with Theme Toggle -->
+                    <li class="theme-toggle-container">
+                        <button id="theme-toggle-button" class="clickable-element">
+                            <img id="theme-toggle-img" src="image/toggle_off_dark.png" alt="Toggle Theme">
+                        </button>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Added id="home" to the hero section for scrolling -->
     <section id="home" class="hero-section background1 section-separator-target">
         <div class="section-content centered-content">
             <img src="image/realmbanner.png" alt="Realm Creator Banner" class="realm-banner">
@@ -97,10 +101,6 @@
         </div>
     </section>
 
-    <!-- Placeholder for FAQ section if you add it -->
-    <!-- <section id="faq" class="faq-section background1"> ... </section> -->
-
-
     <footer>
         <div class="footer-content">
             <p>Copyright © Realm Creator | All rights reserved | Not affiliated with Mojang Studios</p>
@@ -116,16 +116,20 @@
         <div class="modal-content">
             <h3>Settings</h3>
             <div class="setting-row">
-                <label for="music-toggle">Music:</label>
-                <button id="music-toggle" class="setting-toggle clickable-element">On</button>
+                <label for="music-toggle-img">Music:</label>
+                <button id="music-toggle-button" class="setting-toggle-button clickable-element">
+                    <img id="music-toggle-img" src="image/toggle_on.png" alt="Music Toggle">
+                </button>
             </div>
              <div class="setting-row">
                 <label for="music-volume">Music Volume:</label>
                 <input type="range" id="music-volume" min="0" max="100" value="50" class="custom-slider clickable-element">
             </div>
             <div class="setting-row">
-                <label for="click-toggle">Click Sound:</label>
-                <button id="click-toggle" class="setting-toggle clickable-element">On</button>
+                <label for="click-toggle-img">Click Sound:</label>
+                <button id="click-toggle-button" class="setting-toggle-button clickable-element">
+                    <img id="click-toggle-img" src="image/toggle_on.png" alt="Click Sound Toggle">
+                </button>
             </div>
              <div class="setting-row">
                 <label for="click-volume">Click Volume:</label>
@@ -135,8 +139,7 @@
         </div>
     </div>
 
-    <!-- Renamed main music audio element for playlist functionality -->
-    <audio id="main-music-player" loop preload="auto"></audio>
+    <audio id="main-music-player" preload="auto"></audio>
     <audio id="minecraft-click" src="sounds/minecraftclick.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
