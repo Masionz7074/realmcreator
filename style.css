@@ -39,10 +39,10 @@ h1, h2, h3, h4, h5, h6,
 .button,
 .modal-content h3,
 .setting-row label,
-.setting-toggle {
-     font-family: 'MinecraftTen', 'Pixelify Sans', sans-serif;
-}
-*/
+.setting-toggle,
+.feature-text p { /* Added .feature-text p */
+/*     font-family: 'MinecraftTen', 'Pixelify Sans', sans-serif; */
+/* } */
 
 
 /* --- Header --- */
@@ -203,97 +203,65 @@ section {
 
 /* --- Features Section Specific Styles --- */
 .features-section {
-    align-items: flex-start; /* Align content to top */
-    text-align: left; /* Align text left */
+    align-items: center; /* Center content vertically in this section */
+    text-align: center; /* Center text in this section */
     color: white; /* Assuming light text on dark background */
 }
 
 .features-section .section-content {
-     /* Remove centering, allow flow layout */
-     display: block;
-     padding-top: 50px; /* Add some space at the top of the content */
+     /* Allow flex layout for the inner container */
+     display: flex;
+     justify-content: center; /* Center the feature pairs container */
+     align-items: center; /* Center vertically */
+     padding-top: 20px; /* Adjust padding */
 }
 
-.features-grid {
+/* New container for feature pairs */
+.features-container {
     display: flex;
-    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-    gap: 40px; /* Space between blocks */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 50px; /* Space between the two feature blocks */
     justify-content: center; /* Center blocks if they don't fill the width */
-    align-items: flex-start; /* Align items to the top of the grid row */
+    align-items: center; /* Align pairs vertically */
+    width: 100%; /* Take full width of section-content */
+    max-width: 900px; /* Optional max width for the container */
 }
 
-.feature-item {
-    /* Base styles */
-    flex-basis: auto; /* Allow flex items to determine size hint */
-    max-width: none; /* Remove general max-width */
+/* Each feature pair (Logo + Text) */
+.feature-pair {
+    display: flex;
+    align-items: center; /* Vertically center image and text */
+    gap: 20px; /* Space between image and text */
+    /* flex: 1; */ /* Allow pairs to grow/shrink - maybe not needed with fixed width/max-width */
+    max-width: 450px; /* Max width for each pair */
 }
 
-.mod-menu-block {
-    flex-basis: 400px; /* Specific size for text block */
-    max-width: 400px;
-    margin-top: 100px; /* Creates staggered effect */
-    text-align: right; /* Text alignment */
+/* Style for the new logo images */
+.feature-pair img {
+    width: 120px; /* Set a fixed width */
+    height: auto; /* Maintain aspect ratio */
+    flex-shrink: 0; /* Prevent image from shrinking */
+     border: 2px solid #555; /* Optional border */
+     box-shadow: 3px 3px 6px rgba(0,0,0,0.3); /* Optional shadow */
 }
 
-.mod-menu-block h3 {
-    font-size: 2em;
-    margin-bottom: 10px;
+.feature-text {
+    flex-grow: 1; /* Allow text block to take available space */
+    text-align: left; /* Align text left */
 }
 
-.mod-menu-block p {
+.feature-text p {
     font-size: 1.1em;
+    color: #eee; /* Lighter text for description */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
-
-
-.mod-screenshot-block {
-    flex-basis: 350px; /* Specific size for small screenshot block */
-    max-width: 350px;
-    margin-top: 0; /* Aligned with grid top */
-    text-align: left; /* Ensure text inside is left aligned */
+.feature-text strong {
+    font-size: 1.3em; /* Make the main name slightly larger */
+    color: white; /* Make the name brighter */
+     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+     display: block; /* Make the name on its own line */
+     margin-bottom: 5px; /* Space below the name */
 }
-
-.mod-screenshot-block img {
-    max-width: 90%; /* Make image smaller than its container */
-    height: auto;
-    border: 1px solid #555;
-    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
-    margin-bottom: 15px;
-     display: block; /* Needed for margin auto */
-     margin-left: auto; /* Center image within its container */
-     margin-right: auto;
-}
-
-.mod-screenshot-block h4,
-.mod-screenshot-block p {
-    text-align: center; /* Center the text below the centered image */
-}
-
-.main-screenshot-block {
-    flex-basis: 100%; /* Make it take full row when wrapped */
-    max-width: 600px; /* Limit its max width */
-    margin-top: -80px; /* Pull it up to overlap */
-    margin-left: auto; /* Center it */
-    margin-right: auto;
-    position: relative; /* For z-index */
-    z-index: 1; /* Ensure it's behind the text block visually */
-     text-align: center; /* Center image if it's smaller than container */
-}
-
-.main-screenshot-block img {
-    max-width: 100%; /* Image takes full width of its container (up to container's max-width) */
-    height: auto;
-    border: 1px solid #555;
-     box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
-     display: block; /* Needed for margin auto */
-     margin-left: auto; /* Center image within its container */
-     margin-right: auto;
-}
-
-/* Adjustments for features grid flow on large screens */
-/* Order determines row placement if items wrap */
-.features-grid > .mod-menu-block { order: 1; } /* Text block first */
-.features-grid > .mod-screenshot-block { order: 2; } /* Small screenshot block second */
-.features-grid > .main-screenshot-block { order: 3; } /* Large screenshot block last (should wrap) */
 
 
 /* --- Creators Section Specific Styles --- */
@@ -609,55 +577,27 @@ footer {
         min-width: auto;
     }
 
-    .features-grid {
-        flex-direction: column; /* Stack feature items */
-        gap: 30px;
+    /* Stack feature pairs on smaller screens */
+    .features-container {
+        flex-direction: column;
+        gap: 30px; /* Adjust gap when stacked */
     }
 
-    .feature-item {
-        flex-basis: 100%; /* Full width when stacked */
-        max-width: 100%; /* Remove max-width limits */
-        text-align: left; /* Reset text align */
-        margin-top: 0 !important; /* Remove staggered margin */
+    /* Stack image and text within each pair on smaller screens */
+    .feature-pair {
+        flex-direction: column;
+        text-align: center; /* Center text when stacked */
+        gap: 10px; /* Adjust gap within pair */
+        max-width: 100%; /* Allow full width */
     }
 
-    .mod-menu-block {
-         text-align: left; /* Align text left on small screens */
-         max-width: 100%; /* Remove max-width */
-         flex-basis: auto; /* Allow content size */
-    }
+     .feature-pair img {
+        width: 80px; /* Make logo smaller on mobile */
+     }
 
-
-    .mod-screenshot-block {
-         max-width: 100%; /* Remove max-width */
-         flex-basis: auto; /* Allow content size */
-         text-align: left; /* Ensure text is left aligned */
-    }
-
-    .mod-screenshot-block img {
-        max-width: 100%; /* Image takes full width of container again */
-        margin-left: auto; /* Keep centered if container is smaller than screen */
-        margin-right: auto;
-    }
-     .mod-screenshot-block h4,
-    .mod-screenshot-block p {
-        text-align: left; /* Align text left below image */
-    }
-
-
-    .main-screenshot-block {
-        margin-top: 0; /* Remove negative margin */
-        margin-left: auto;
-        margin-right: auto;
-        flex-basis: 100%; /* Full width */
-        max-width: 100%; /* Remove max-width limit */
-        text-align: center; /* Keep centered */
-    }
-
-    /* Adjust order for stacking layout */
-    .features-grid > .mod-menu-block { order: 1; } /* Text first */
-    .features-grid > .mod-screenshot-block { order: 2; } /* Small screenshot second */
-    .features-grid > .main-screenshot-block { order: 3; } /* Large screenshot last */
+     .feature-text {
+        text-align: center; /* Center text when stacked */
+     }
 
 
     .creators-list {
@@ -738,8 +678,11 @@ footer {
         font-size: 0.9em;
      }
 
-     .features-section h3 { font-size: 1.5em; }
-     .mod-screenshot-block h4 { font-size: 1.2em; }
+     .features-section h3 { font-size: 1.5em; } /* No h3 in new feature layout, but keep for potential future use */
+     .mod-screenshot-block h4 { font-size: 1.2em; } /* No h4 in new feature layout, but keep for potential future use */
+     .feature-text p { font-size: 1em; } /* Adjust text size */
+      .feature-text strong { font-size: 1.1em; }
+
 
      .creators-section h2 { font-size: 1.8em;}
      .creator-card h3 { font-size: 1.2em;}
