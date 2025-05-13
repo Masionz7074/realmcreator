@@ -113,20 +113,20 @@ body.dark-theme .player-button:hover {
     width: 28px;
     height: 28px;
     display: block;
-    filter: none; /* Default for light theme */
-    transition: filter 0.3s ease;
+    filter: none;
+    transition: filter 0.3s ease, opacity 0.2s ease;
 }
 .player-button-img:hover img {
     opacity: 0.8;
 }
 body.dark-theme .player-button-img img {
-    filter: invert(90%) sepia(10%) saturate(100%) hue-rotate(180deg) brightness(100%) contrast(90%); /* Basic invert for dark theme */
+    filter: invert(90%) sepia(10%) saturate(100%) hue-rotate(180deg) brightness(100%) contrast(90%);
 }
 
 
 #current-song-name {
     font-size: 0.9em;
-    color: #555; /* Light theme song name */
+    color: #555;
     margin-left: 5px;
     white-space: nowrap;
     overflow: hidden;
@@ -135,7 +135,7 @@ body.dark-theme .player-button-img img {
     transition: color 0.3s ease;
 }
 body.dark-theme #current-song-name {
-    color: #bbb; /* Dark theme song name */
+    color: #bbb;
 }
 
 
@@ -143,26 +143,25 @@ nav ul {
     list-style: none;
     display: flex;
     gap: 20px;
-    align-items: center; /* Align theme toggle with other nav items */
+    align-items: center;
 }
 
 nav a {
     text-decoration: none;
-    color: #333; /* Light theme nav link */
+    color: #333;
     font-weight: bold;
     transition: color 0.3s ease;
 }
 nav a:hover {
-    color: #007bff; /* Light theme nav link hover */
+    color: #007bff;
 }
 body.dark-theme nav a {
-    color: #bbb; /* Dark theme nav link */
+    color: #bbb;
 }
 body.dark-theme nav a:hover {
-    color: #e0e0e0; /* Dark theme nav link hover */
+    color: #e0e0e0;
 }
 
-/* Theme Toggle Styles */
 .theme-toggle-container {
     display: flex;
     align-items: center;
@@ -175,9 +174,12 @@ body.dark-theme nav a:hover {
     line-height: 0;
 }
 #theme-toggle-img {
-    width: 32px; /* Adjust size as needed */
+    width: 32px; /* Size for theme toggle images */
     height: auto;
     display: block;
+}
+#theme-toggle-button:hover #theme-toggle-img {
+    opacity: 0.8; /* Simple hover for theme toggle */
 }
 
 
@@ -193,14 +195,14 @@ section {
     text-align: center;
     padding: 80px 20px 20px;
     position: relative;
-    border-bottom: 5px solid rgba(0, 0, 0, 0.3); /* Light theme separator */
+    border-bottom: 5px solid rgba(0, 0, 0, 0.3);
     transition: border-bottom-color 0.3s ease;
 }
 section:last-of-type {
     border-bottom: none;
 }
 body.dark-theme section {
-    border-bottom-color: rgba(255, 255, 255, 0.15); /* Dark theme separator */
+    border-bottom-color: rgba(255, 255, 255, 0.15);
 }
 
 
@@ -233,7 +235,7 @@ body.dark-theme section {
 .hero-section p {
     font-size: 1.2em;
     margin-bottom: 30px;
-    color: white; /* This text is on a background image, so keep it light */
+    color: white;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
@@ -255,20 +257,20 @@ body.dark-theme section {
     text-align: center;
     cursor: pointer;
     border: 2px solid #555;
-    background-color: #ccc; /* Light theme button */
-    color: #333; /* Light theme button text */
+    background-color: #ccc;
+    color: #333;
 }
 .button:hover {
-    background-color: #ddd; /* Light theme button hover */
+    background-color: #ddd;
     border-color: #666;
 }
 body.dark-theme .button {
-    background-color: #444; /* Dark theme button */
-    color: #e0e0e0; /* Dark theme button text */
+    background-color: #444;
+    color: #e0e0e0;
     border-color: #777;
 }
 body.dark-theme .button:hover {
-    background-color: #555; /* Dark theme button hover */
+    background-color: #555;
     border-color: #888;
 }
 
@@ -282,15 +284,12 @@ body.dark-theme .button:hover {
     background-color: #45a049;
      border-color: #45a049;
 }
-body.dark-theme .download-button {
-    /* Keep specific green colors for download, just adjust hover if needed */
-}
 
 
 .features-section {
     align-items: center;
     text-align: center;
-    color: white; /* Text is on background image, keep white */
+    color: white;
 }
 
 .features-section .section-content {
@@ -338,29 +337,29 @@ body.dark-theme .feature-pair img {
 
 .feature-text p {
     font-size: 1.3em;
-    color: #eee; /* Light text for features */
+    color: #eee;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
     line-height: 1.4;
 }
 body.dark-theme .feature-text p {
-    color: #ccc; /* Slightly adjust if needed for dark theme, but should be fine */
+    color: #ccc;
 }
 .feature-text strong {
     font-size: 1.5em;
-    color: white; /* Light text for feature titles */
+    color: white;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
     display: block;
     margin-bottom: 8px;
 }
 body.dark-theme .feature-text strong {
-    color: #f0f0f0; /* Slightly adjust if needed */
+    color: #f0f0f0;
 }
 
 
 .creators-section h2 {
     font-size: 2.5em;
     margin-bottom: 40px;
-    color: white; /* Text on background, keep white */
+    color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -372,21 +371,21 @@ body.dark-theme .feature-text strong {
 }
 
 .creator-card {
-    background-color: #f0f0f0; /* Light theme card bg */
-    color: #333; /* Light theme card text */
+    background-color: #f0f0f0;
+    color: #333;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
     flex: 1;
     min-width: 220px;
     max-width: 280px;
-     border: 3px solid #555; /* Light theme card border */
+     border: 3px solid #555;
      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 body.dark-theme .creator-card {
-    background-color: #3a3a3a; /* Dark theme card bg */
-    color: #e0e0e0; /* Dark theme card text */
-    border-color: #666; /* Dark theme card border */
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    border-color: #666;
 }
 
 .creator-card img {
@@ -394,11 +393,11 @@ body.dark-theme .creator-card {
     height: 80px;
     border-radius: 50%;
     margin-bottom: 15px;
-    border: 2px solid #555; /* Light theme img border */
+    border: 2px solid #555;
     transition: border-color 0.3s ease;
 }
 body.dark-theme .creator-card img {
-    border-color: #777; /* Dark theme img border */
+    border-color: #777;
 }
 
 .creator-card h3 {
@@ -417,18 +416,18 @@ body.dark-theme .creator-card img {
 }
 
 footer {
-    background-color: #f0f0f0; /* Light theme footer */
-    color: #333; /* Light theme footer text */
+    background-color: #f0f0f0;
+    color: #333;
     text-align: center;
     padding: 20px;
     font-size: 0.9em;
-     border-top: 3px solid #555; /* Light theme footer border */
+     border-top: 3px solid #555;
      transition: background-color 0.3s ease, color 0.3s ease, border-top-color 0.3s ease;
 }
 body.dark-theme footer {
-    background-color: #2a2a2a; /* Dark theme footer */
-    color: #ccc; /* Dark theme footer text */
-    border-top-color: #555; /* Dark theme footer border */
+    background-color: #2a2a2a;
+    color: #ccc;
+    border-top-color: #555;
 }
 
 .footer-content {
@@ -442,13 +441,13 @@ body.dark-theme footer {
     right: 15px;
     height: 100vh;
     width: 8px;
-    background-color: rgba(0, 0, 0, 0.2); /* Light theme scrollbar track */
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: 1001;
     pointer-events: none;
     transition: background-color 0.3s ease;
 }
 body.dark-theme .custom-scrollbar {
-    background-color: rgba(255, 255, 255, 0.1); /* Dark theme scrollbar track */
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .scrollbar-handle {
@@ -457,14 +456,14 @@ body.dark-theme .custom-scrollbar {
     left: -2px;
     width: 12px;
     height: 80px;
-    background-color: white; /* Light theme scrollbar handle */
-     border: 1px solid #555; /* Light theme scrollbar handle border */
+    background-color: white;
+     border: 1px solid #555;
      border-radius: 4px;
      transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 body.dark-theme .scrollbar-handle {
-    background-color: #555; /* Dark theme scrollbar handle */
-    border-color: #888; /* Dark theme scrollbar handle border */
+    background-color: #555;
+    border-color: #888;
 }
 
 
@@ -482,8 +481,8 @@ body.dark-theme .scrollbar-handle {
 }
 
 .modal-content {
-    background-color: #f0f0f0; /* Light theme modal */
-    color: #333; /* Light theme modal text */
+    background-color: #f0f0f0;
+    color: #333;
     padding: 30px;
     border-radius: 8px;
     max-width: 500px;
@@ -491,20 +490,19 @@ body.dark-theme .scrollbar-handle {
     text-align: left;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
-    border: 3px solid #555; /* Light theme modal border */
+    border: 3px solid #555;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 body.dark-theme .modal-content {
-    background-color: #3a3a3a; /* Dark theme modal */
-    color: #e0e0e0; /* Dark theme modal text */
-    border-color: #666; /* Dark theme modal border */
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    border-color: #666;
 }
 
 .modal-content h3 {
     font-size: 2em;
     margin-bottom: 20px;
     text-align: center;
-    /* color is inherited from .modal-content */
 }
 
 .setting-row {
@@ -519,7 +517,6 @@ body.dark-theme .modal-content {
     font-size: 1.1em;
     margin-right: 15px;
      flex-shrink: 0;
-    /* color is inherited */
 }
 
 .setting-toggle-button {
@@ -534,6 +531,9 @@ body.dark-theme .modal-content {
     height: auto;
     display: block;
 }
+.setting-toggle-button:hover img {
+    opacity: 0.8; /* Simple hover for all toggles */
+}
 
 
 .custom-slider {
@@ -541,7 +541,7 @@ body.dark-theme .modal-content {
     appearance: none;
     width: 100%;
     height: 25px;
-    background: #ddd; /* Light theme slider track bg */
+    background: #ddd;
     outline: none;
     margin: 0;
     padding: 0;
@@ -550,27 +550,27 @@ body.dark-theme .modal-content {
     flex-grow: 1;
     min-width: 150px;
     border-radius: 5px;
-    border: 1px solid #aaa; /* Light theme slider track border */
+    border: 1px solid #aaa;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 body.dark-theme .custom-slider {
-    background: #444; /* Dark theme slider track bg */
-    border-color: #666; /* Dark theme slider track border */
+    background: #444;
+    border-color: #666;
 }
 
 .custom-slider::-webkit-slider-runnable-track {
     width: 100%; height: 10px; cursor: pointer;
-    background: #bbb; /* Light theme slider actual bar */
+    background: #bbb;
     border-radius: 5px;
-    border: 1px solid #999; /* Light theme slider actual bar border */
+    border: 1px solid #999;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 body.dark-theme .custom-slider::-webkit-slider-runnable-track {
-    background: #555; /* Dark theme slider actual bar */
-    border-color: #777; /* Dark theme slider actual bar border */
+    background: #555;
+    border-color: #777;
 }
 
-.custom-slider::-moz-range-track { /* Firefox specific */
+.custom-slider::-moz-range-track {
     width: 100%; height: 10px; cursor: pointer;
     background: #bbb;
     border-radius: 5px;
@@ -591,15 +591,15 @@ body.dark-theme .custom-slider::-moz-range-track {
     background-position: center;
     cursor: pointer;
     margin-top: -7px;
-    border: 1px solid #777; /* Light theme thumb border */
+    border: 1px solid #777;
     border-radius: 50%;
     transition: border-color 0.3s ease;
 }
 body.dark-theme .custom-slider::-webkit-slider-thumb {
-    border-color: #aaa; /* Dark theme thumb border */
+    border-color: #aaa;
 }
 
-.custom-slider::-moz-range-thumb { /* Firefox specific */
+.custom-slider::-moz-range-thumb {
     width: 24px; height: 24px;
     background-image: url('image/waterascend.png');
     background-size: contain;
@@ -690,7 +690,7 @@ body.dark-theme .custom-slider::-moz-range-thumb {
     .modal-content h3 { font-size: 1.5em; }
     .setting-row { flex-direction: column; align-items: flex-start; gap: 5px; }
     .setting-row label { margin-right: 0; }
-    .setting-toggle-button img { width: 50px; } /* Slightly smaller toggle on mobile */
+    .setting-toggle-button img { width: 50px; }
     .custom-slider { width: 100%; min-width: auto; }
 }
 
@@ -698,6 +698,9 @@ body.dark-theme .custom-slider::-moz-range-thumb {
      .logo { font-size: 1em; }
      nav ul { flex-direction: column; gap: 5px; }
      nav a { font-size: 0.9em; }
+     .theme-toggle-container { /* Ensure theme toggle stays in line on smallest screens */
+         margin-left: auto;
+     }
      .music-player-controls {
          flex-wrap: wrap;
          justify-content: center;
