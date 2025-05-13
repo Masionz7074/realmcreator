@@ -1,25 +1,18 @@
 /* style.css */
 
-/* --- Custom Minecraft-Themed Font --- */
-/* Ensure your font file 'minecraftfont.woff2' is in the 'image/' folder. */
 @font-face {
-    font-family: 'MinecraftTen'; /* Keep your chosen CSS font family name */
+    font-family: 'MinecraftTen';
     src: url('image/minecraftfont.woff2') format('woff2');
-    /* If you also have a .woff version, add it as a fallback:
-       src: url('image/minecraftfont.woff2') format('woff2'),
-            url('image/minecraftfont.woff') format('woff');
-    */
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
-
-/* --- Basic Reset and Body Styles --- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth; /* Added for smooth scrolling with hash links */
 }
 
 body {
@@ -30,13 +23,12 @@ body {
     position: relative;
 }
 
-/* --- Header --- */
 header {
     position: fixed;
     top: 0;
     width: 100%;
     background-color: #f0f0f0;
-    padding: 15px 20px;
+    padding: 10px 20px; /* Adjusted padding slightly */
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -53,7 +45,31 @@ header {
     font-size: 1.2em;
     font-weight: bold;
     color: #333;
+    margin-right: 20px; /* Space between logo and player controls */
 }
+
+/* Music Player Controls Styles */
+.music-player-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: auto; /* Pushes nav to the right */
+}
+
+.player-button {
+    background-color: #ddd;
+    border: 2px solid #555;
+    color: #333;
+    font-size: 1.1em; /* Match font size with other clickable elements */
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: 'MinecraftTen', Arial, sans-serif; /* Ensure consistent font */
+}
+.player-button:hover {
+    background-color: #ccc;
+}
+
 
 nav ul {
     list-style: none;
@@ -72,7 +88,6 @@ nav a:hover {
     color: #007bff;
 }
 
-/* --- Sections --- */
 section {
     width: 100%;
     min-height: 100vh;
@@ -84,15 +99,26 @@ section {
     align-items: center;
     text-align: center;
     padding: 80px 20px 20px;
-    position: relative;
+    position: relative; /* Needed for pseudo-element separator */
 }
 
-/* Background Images */
+/* Section Separator Bar */
+.section-separator-target:not(:last-of-type)::after {
+    content: "";
+    position: absolute;
+    bottom: 0; /* Place at the very bottom of the section */
+    left: 0;
+    width: 100%;
+    height: 5px; /* Thickness of the bar */
+    background-color: rgba(0, 0, 0, 0.4); /* Dark, semi-transparent bar */
+    z-index: 5; /* Ensure it's above background but below next section's content */
+}
+
+
 .background1 { background-image: url('image/background1.png'); }
 .background2 { background-image: url('image/background2.png'); }
 .background3 { background-image: url('image/background3.png'); }
 
-/* Content Container */
 .section-content {
     max-width: 1000px;
     width: 100%;
@@ -109,8 +135,6 @@ section {
     justify-content: center;
 }
 
-
-/* --- Hero Section Specific Styles --- */
 .realm-banner {
     max-width: 80%;
     height: auto;
@@ -162,7 +186,6 @@ section {
      border-color: #45a049;
 }
 
-/* --- Features Section Specific Styles --- */
 .features-section {
     align-items: center;
     text-align: center;
@@ -176,61 +199,52 @@ section {
      padding-top: 20px;
 }
 
-/* Container for the two feature blocks */
 .features-container {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    justify-content: space-around; /* Distribute space around feature pairs */
-    align-items: flex-start; /* Align items to the top */
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
     width: 100%;
-    max-width: 1100px; /* Max width for the two-column layout */
-    gap: 30px; /* Gap between the two columns / rows when wrapped */
+    max-width: 1100px;
+    gap: 30px;
 }
 
-/* Each feature pair (Logo + Text) */
 .feature-pair {
     display: flex;
-    align-items: center; /* Vertically center image and text */
-    gap: 20px; /* Space between image and text */
-    flex-basis: 45%; /* Aim for two columns, leaving space for gap and justify-content */
-    max-width: 500px; /* Max width for each pair */
-    min-width: 280px; /* Minimum width before wrapping if space is tight */
-    /* background-color: rgba(0,0,0,0.3); /* Optional subtle background for readability */
-    /* padding: 15px; */
-    /* border-radius: 8px; */
+    align-items: center;
+    gap: 20px;
+    flex-basis: 45%;
+    max-width: 500px;
+    min-width: 280px;
 }
 
-/* Style for the new logo images - SMALLER */
 .feature-pair img {
-    width: 100px; /* SMALLER IMAGE SIZE */
-    height: auto; /* Maintain aspect ratio */
-    flex-shrink: 0; /* Prevent image from shrinking */
-    border: 2px solid #555; /* Optional border */
-    box-shadow: 3px 3px 6px rgba(0,0,0,0.3); /* Optional shadow */
+    width: 100px;
+    height: auto;
+    flex-shrink: 0;
+    border: 2px solid #555;
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
 }
 
 .feature-text {
-    flex-grow: 1; /* Allow text block to take available space */
-    text-align: left; /* Align text left */
+    flex-grow: 1;
+    text-align: left;
 }
 
-/* BIGGER TEXT SIZE */
 .feature-text p {
-    font-size: 1.3em; /* BIGGER TEXT */
-    color: #eee; /* Lighter text for description */
+    font-size: 1.3em;
+    color: #eee;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-    line-height: 1.4; /* Adjust line height for readability */
+    line-height: 1.4;
 }
 .feature-text strong {
-    font-size: 1.5em; /* Make the main name slightly larger, relative to p */
-    color: white; /* Make the name brighter */
+    font-size: 1.5em;
+    color: white;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
-    display: block; /* Make the name on its own line */
-    margin-bottom: 8px; /* Space below the name */
+    display: block;
+    margin-bottom: 8px;
 }
 
-
-/* --- Creators Section Specific Styles --- */
 .creators-section h2 {
     font-size: 2.5em;
     margin-bottom: 40px;
@@ -252,8 +266,8 @@ section {
     border-radius: 8px;
     text-align: center;
     flex: 1;
-    min-width: 250px;
-    max-width: 350px;
+    min-width: 220px;
+    max-width: 280px;
      border: 3px solid #555;
 }
 
@@ -280,7 +294,6 @@ section {
     margin-bottom: 5px;
 }
 
-/* --- Footer --- */
 footer {
     background-color: #f0f0f0;
     color: #333;
@@ -295,7 +308,6 @@ footer {
     margin: 0 auto;
 }
 
-/* --- Custom Scrollbar Placeholder --- */
 .custom-scrollbar {
     position: fixed;
     top: 0;
@@ -318,8 +330,6 @@ footer {
      border: 1px solid #555;
 }
 
-
-/* --- Settings Modal Styles --- */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -327,7 +337,7 @@ footer {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    display: none; /* Hidden by default, shown by JS */
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 2000;
@@ -376,11 +386,11 @@ footer {
     text-align: center;
     transition: background-color 0.2s ease;
      border: 2px solid #555;
-     background-color: #ccc; /* Default "On" or general state */
+     background-color: #ccc;
      color: #333;
 }
 .setting-toggle[data-state="on"] {
-    background-color: #4CAF50; /* Green for On */
+    background-color: #4CAF50;
     color: white;
     border-color: #4CAF50;
 }
@@ -389,7 +399,7 @@ footer {
 }
 
 .setting-toggle[data-state="off"] {
-     background-color: #f44336; /* Red for Off */
+     background-color: #f44336;
      color: white;
      border-color: #f44336;
 }
@@ -397,8 +407,6 @@ footer {
      background-color: #e53935;
 }
 
-
-/* --- Custom Slider Styling --- */
 .custom-slider {
     -webkit-appearance: none;
     appearance: none;
@@ -454,40 +462,66 @@ footer {
     width: 100%;
 }
 
+@media (max-width: 992px) { /* Adjusted breakpoint for header controls */
+    .header-container {
+        flex-wrap: wrap; /* Allow wrapping */
+        gap: 10px;
+    }
+    .logo {
+        margin-right: 0; /* Remove specific margin */
+        flex-basis: 100%; /* Logo takes full width on its line */
+        text-align: center; /* Center logo when it wraps */
+    }
+    .music-player-controls {
+        order: 2; /* Place after nav on wrap if needed, or adjust order */
+        margin-left: 0; /* Reset margin */
+        margin-right: 0;
+        justify-content: center; /* Center controls when wrapped */
+        width: 100%;
+    }
+    nav {
+        order: 1; /* Nav first then player controls on new line */
+        width: 100%;
+        justify-content: center;
+    }
+    nav ul {
+        justify-content: center; /* Center nav items */
+        flex-wrap: wrap; /* Allow nav items to wrap too */
+    }
+}
 
-/* --- Responsive Adjustments --- */
+
 @media (max-width: 768px) {
-    .header-container { flex-direction: column; gap: 10px; }
-    nav ul { gap: 10px; }
+    /* .header-container adjustments from above will apply */
+
     .realm-banner { max-width: 90%; }
     .hero-section p { font-size: 1em; }
     .hero-section .buttons { flex-direction: column; gap: 10px; }
     .button { padding: 12px 20px; font-size: 1em; min-width: auto; }
 
-    /* Updated Responsive Features */
     .features-container {
-        flex-direction: column; /* Stack feature pairs */
-        align-items: center; /* Center them when stacked */
-        gap: 40px; /* Increase gap when stacked vertically */
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
     }
     .feature-pair {
-        flex-basis: 100%; /* Full width when stacked */
-        max-width: 450px; /* Max width for a single stacked item */
-        flex-direction: column; /* Stack image and text within the pair */
-        text-align: center; /* Center text within the pair when stacked */
+        flex-basis: 100%;
+        max-width: 450px;
+        flex-direction: column;
+        text-align: center;
         gap: 15px;
     }
      .feature-pair img {
-        width: 80px; /* Can make logo a bit smaller on mobile if desired */
+        width: 80px;
      }
      .feature-text {
-        text-align: center; /* Ensure text is centered when stacked */
+        text-align: center;
      }
       .feature-text p {
-        font-size: 1.1em; /* Adjust text size for mobile */
+        font-size: 1.1em;
      }
       .feature-text strong {
-        font-size: 1.3em; /* Adjust strong text for mobile */
+        font-size: 1.3em;
      }
 
     .creators-list { flex-direction: column; gap: 20px; }
@@ -503,15 +537,15 @@ footer {
 }
 
 @media (max-width: 480px) {
-     header { padding: 10px; }
+     /* .header-container adjustments from above will apply */
      .logo { font-size: 1em; }
-     nav ul { flex-direction: column; gap: 5px; }
+     nav ul { flex-direction: column; gap: 5px; } /* Stack nav links on very small screens */
      nav a { font-size: 0.9em; }
+
      .realm-banner { max-width: 100%; }
     .hero-section p { font-size: 0.9em; }
      .button { padding: 10px 15px; font-size: 0.9em; }
 
-     /* Adjust feature text sizes further for very small screens */
      .feature-text p { font-size: 1em; }
      .feature-text strong { font-size: 1.2em; }
 
