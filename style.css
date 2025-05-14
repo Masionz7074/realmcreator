@@ -15,12 +15,16 @@
     scroll-behavior: smooth;
 }
 
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll on the body itself */
+}
+
 body {
     font-family: 'MinecraftTen', 'Pixelify Sans', 'Press Start 2P', Arial, sans-serif;
     background-color: #fff;
     color: #333;
     line-height: 1.6;
-    overflow-x: hidden;
     position: relative;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -34,7 +38,8 @@ body.dark-theme {
 header {
     position: fixed;
     top: 0;
-    width: 100%;
+    left: 0; /* Ensure it spans full width */
+    right: 0; /* Ensure it spans full width */
     background-color: #f0f0f0;
     padding: 10px 20px;
     z-index: 1000;
@@ -52,6 +57,7 @@ body.dark-theme header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
 .logo {
@@ -60,6 +66,7 @@ body.dark-theme header {
     color: #333;
     margin-right: 15px;
     transition: color 0.3s ease;
+    flex-shrink: 0; /* Prevent logo from shrinking too much */
 }
 body.dark-theme .logo {
     color: #e0e0e0;
@@ -70,7 +77,8 @@ body.dark-theme .logo {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-right: auto;
+    margin-right: auto; /* Pushes nav to the right on wider screens */
+    flex-shrink: 0; /* Prevent controls from shrinking too much */
 }
 
 .player-button-img {
@@ -104,7 +112,7 @@ body.dark-theme .player-button-img img {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 150px;
+    max-width: 150px; /* Adjust as needed */
     transition: color 0.3s ease;
 }
 body.dark-theme #current-song-name {
@@ -112,11 +120,16 @@ body.dark-theme #current-song-name {
 }
 
 
+nav {
+    flex-shrink: 0; /* Prevent nav from shrinking too much */
+}
 nav ul {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 15px; /* Slightly reduced gap for flexibility */
     align-items: center;
+    flex-wrap: wrap; /* Allow nav items to wrap */
+    justify-content: flex-end; /* Align to the right */
 }
 
 nav a {
@@ -124,6 +137,7 @@ nav a {
     color: #333;
     font-weight: bold;
     transition: color 0.3s ease;
+    padding: 5px 0; /* Add some padding for touch targets */
 }
 nav a:hover {
     color: #007bff;
@@ -166,18 +180,21 @@ section {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 80px 20px 20px;
+    padding: 100px 20px 40px; /* Increased top padding for fixed header, bottom for separator */
     position: relative;
     border-bottom: 5px solid rgba(0, 0, 0, 0.3);
     transition: border-bottom-color 0.3s ease;
 }
-section:last-of-type {
+section:last-of-type { /* Footer is not a section, so this should target the last actual content section */
+    border-bottom: none;
+}
+body > section:last-of-type { /* More specific to target sections that are direct children of body */
     border-bottom: none;
 }
 body.dark-theme section {
     border-bottom-color: rgba(255, 255, 255, 0.15);
 }
-body.dark-theme section:last-of-type {
+body.dark-theme body > section:last-of-type {
     border-bottom: none;
 }
 
@@ -219,6 +236,7 @@ body.dark-theme section:last-of-type {
     display: flex;
     gap: 20px;
     justify-content: center;
+    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
 }
 
 .button {
@@ -341,7 +359,7 @@ body.dark-theme .feature-text strong {
 
 .creators-list {
     display: flex;
-    gap: 30px;
+    gap: 20px; /* Adjusted gap for potentially 4 items */
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -352,9 +370,8 @@ body.dark-theme .feature-text strong {
     padding: 20px;
     border-radius: 8px;
     text-align: center;
-    flex: 1;
-    min-width: 220px;
-    max-width: 280px;
+    flex: 1 1 200px; /* Allow cards to grow, shrink, with a base of 200px */
+    max-width: 260px; /* Max width for cards */
      border: 3px solid #555;
      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
@@ -498,40 +515,40 @@ body.dark-theme .scrollbar-handle {
     justify-content: center;
     align-items: center;
     z-index: 2000;
+    padding: 10px; /* Add some padding for small screens */
 }
 
-.modal-content {
+.modal-content, .discord-widget-content {
     background-color: #f0f0f0;
     color: #333;
     padding: 30px;
     border-radius: 8px;
     max-width: 500px;
-    width: 90%;
+    width: 100%; /* Make it responsive within overlay padding */
     text-align: left;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
     border: 3px solid #555;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    max-height: 90vh; /* Prevent modal from being too tall */
+    overflow-y: auto; /* Add scroll if content exceeds height */
 }
-body.dark-theme .modal-content {
+body.dark-theme .modal-content, body.dark-theme .discord-widget-content {
     background-color: #3a3a3a;
     color: #e0e0e0;
     border-color: #666;
 }
 
 .discord-widget-content {
-    background-color: transparent; /* Let iframe dictate background */
+    background-color: transparent;
     padding: 0;
-    border-radius: 8px;
-    max-width: 370px;
-    width: 90%;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    position: relative;
+    max-width: 370px; /* Specific for discord widget */
+    overflow: hidden; /* Iframe should handle its own scroll */
 }
 .discord-widget-content iframe {
     display: block;
     width: 100%;
-    height: 500px;
+    height: 500px; /* Fixed height from Discord */
     border-radius: 8px;
 }
 .close-modal-button {
@@ -683,29 +700,26 @@ body.dark-theme .custom-slider::-moz-range-thumb {
 @media (max-width: 992px) {
     .header-container {
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 5px; /* Reduced gap for tighter wrap */
     }
     .logo {
-        margin-right: 0;
         flex-basis: 100%;
         text-align: center;
+        margin-bottom: 5px; /* Add some space below logo when wrapped */
     }
     .music-player-controls {
-        order: 2;
-        margin-left: auto;
-        margin-right: auto;
-        justify-content: center;
-        width: auto;
-        padding-bottom: 5px;
-    }
-    nav {
-        order: 1;
+        order: 3; /* Music controls last */
         width: 100%;
         justify-content: center;
+        margin-top: 5px; /* Space above when wrapped */
+    }
+    nav {
+        order: 2; /* Nav in the middle */
+        width: 100%;
     }
     nav ul {
         justify-content: center;
-        flex-wrap: wrap;
+        gap: 10px; /* Adjust gap for nav items */
     }
 }
 
@@ -745,7 +759,8 @@ body.dark-theme .custom-slider::-moz-range-thumb {
     .creator-card { max-width: 100%; }
     .custom-scrollbar { right: 5px; width: 5px; }
     .scrollbar-handle { left: -1px; width: 7px; }
-    .modal-content { padding: 20px; }
+    .modal-content, .discord-widget-content { padding: 20px; max-height: 85vh; }
+    .discord-widget-content iframe { height: 450px; } /* Adjust Discord widget height on tablet */
     .modal-content h3 { font-size: 1.5em; }
     .setting-row { flex-direction: column; align-items: flex-start; gap: 5px; }
     .setting-row label { margin-right: 0; }
@@ -763,6 +778,7 @@ body.dark-theme .custom-slider::-moz-range-thumb {
      .music-player-controls {
          flex-wrap: wrap;
          justify-content: center;
+         gap: 5px; /* Tighter gap for player controls */
      }
      #current-song-name {
          flex-basis: 100%;
@@ -770,8 +786,9 @@ body.dark-theme .custom-slider::-moz-range-thumb {
          margin-left: 0;
          margin-top: 5px;
          max-width: 100%;
+         font-size: 0.8em;
      }
-     .player-button-img img { width: 24px; height: 24px; }
+     .player-button-img img { width: 22px; height: 22px; }
 
 
      .realm-banner { max-width: 100%; }
@@ -784,4 +801,5 @@ body.dark-theme .custom-slider::-moz-range-thumb {
      .creators-section h2 { font-size: 1.8em;}
      .creator-card h3 { font-size: 1.2em;}
      footer { font-size: 0.8em;}
+     .discord-widget-content iframe { height: 400px; } /* Further adjust Discord widget height */
 }
