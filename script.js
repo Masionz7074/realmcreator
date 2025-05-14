@@ -21,12 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleButton = document.getElementById('theme-toggle-button');
     const themeToggleImg = document.getElementById('theme-toggle-img');
 
-    // Discord Widget Elements
     const discordLinkNav = document.getElementById('discord-link-nav');
     const discordButtonHero = document.getElementById('discord-button-hero');
     const discordWidgetModal = document.getElementById('discord-widget-modal');
     const closeDiscordWidgetButton = document.getElementById('close-discord-widget');
-
 
     const songPlaylist = [
         { src: 'sounds/mainmenu.mp3', name: 'Minecraft Music' },
@@ -54,40 +52,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateSongNameDisplay = () => {
         if (currentSongNameDisplay && songPlaylist[currentSongIndex]) {
             currentSongNameDisplay.textContent = songPlaylist[currentSongIndex].name;
+        } else if (currentSongNameDisplay) {
+            currentSongNameDisplay.textContent = "";
         }
     };
 
     const attemptPlayMusic = () => {
-        if (isMusicEnabled && hasUserInteracted && mainMusicPlayer && mainMusicPlayer.paused) {
-            console.log("Attempting to play current song:", songPlaylist[currentSongIndex].name);
+        if (isMusicEnabled && hasUserInteracted && mainMusicPlayer && mainMusicPlayer.src && mainMusicPlayer.paused) {
+            console.log("Attempting to play:", mainMusicPlayer.src);
             const playPromise = mainMusicPlayer.play();
             if (playPromise !== undefined) {
-                playPromise.catch(e => {
-                    console.error(`Error playing song ${mainMusicPlayer.src}:`, e);
-                });
+                playPromise.catch(e => console.error("Error in attemptPlayMusic:", e));
             }
         } else {
-            console.log("Conditions not met for playing music:", {isMusicEnabled, hasUserInteracted, paused: mainMusicPlayer ? mainMusicPlayer.paused : 'no player'});
+            console.log("Not playing music. Reason:", {isMusicEnabled, hasUserInteracted, src:mainMusicPlayer ? mainMusicPlayer.src : 'no player', paused: mainMusicPlayer ? mainMusicPlayer.paused : 'no player'});
         }
     };
 
+    const loadSong = (index, playImmediately = false) => {
+        if (!mainMusicPlayer || !songPlaylist || !songPlaylist[index]) {
+            console.error("Player or playlist not ready for loadSong.");
+            return;
+        }
+        console.log(`Loading song index: ${index}, Name: ${songPlaylist[index].name}, Play: ${playImmediately}`);
+        mainMusicPlayer.src = songPlaylist[index].src;
+        updateSongNameDisplay();
+        mainMusicPlayer.volume = musicVolume;
 
-    const loadSong = (index, playWhenReady = false) => {
-        console.log(`Loading song index: ${index}, Name: ${songPlaylist[index] ? songPlaylist[index].name : 'N/A'}`);
-        if (mainMusicPlayer && songPlaylist && songPlaylist[index]) {
-            mainMusicPlayer.src = songPlaylist[index].src;
-            mainMusicPlayer.volume = musicVolume;
-            updateSongNameDisplay();
-            if (playWhenReady) {
-                attemptPlayMusic();
-            }
-        } else {
-            console.error("Failed to load song: Player, playlist, or index issue.");
+        if (playImmediately) {
+            attemptPlayMusic();
         }
     };
 
     const playNextSong = () => {
-        console.log("playNextSong called");
         if (!hasUserInteracted) hasUserInteracted = true;
         currentSongIndex = (currentSongIndex + 1) % songPlaylist.length;
         loadSong(currentSongIndex, true);
@@ -95,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const playPrevSong = () => {
-        console.log("playPrevSong called");
         if (!hasUserInteracted) hasUserInteracted = true;
         currentSongIndex = (currentSongIndex - 1 + songPlaylist.length) % songPlaylist.length;
         loadSong(currentSongIndex, true);
@@ -104,17 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mainMusicPlayer) {
         mainMusicPlayer.addEventListener('ended', () => {
-            console.log("Song ended, playing next if enabled.");
             if (isMusicEnabled) playNextSong();
         });
         mainMusicPlayer.addEventListener('error', (e) => {
-            console.error("Audio Player Error:", mainMusicPlayer.error, e);
-        });
-        mainMusicPlayer.addEventListener('canplaythrough', () => {
-             console.log(`Song ${mainMusicPlayer.src} can play through. Attempting play if conditions met.`);
-             if (isMusicEnabled && hasUserInteracted && mainMusicPlayer.paused && mainMusicPlayer.src === songPlaylist[currentSongIndex].src) {
-                attemptPlayMusic();
-             }
+            console.error("Audio Player Error on element:", e, mainMusicPlayer.error);
         });
     }
 
@@ -137,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadSettings = () => {
-        console.log("Loading settings...");
         const savedMusicEnabled = localStorage.getItem('isMusicEnabled');
         if (savedMusicEnabled !== null) isMusicEnabled = savedMusicEnabled === 'true';
         setToggleImageSrc(musicToggleImg, isMusicEnabled, generalToggleImages.on, generalToggleImages.off);
@@ -149,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedMusicVolume = localStorage.getItem('musicVolume');
         if (savedMusicVolume !== null) {
             const parsed = parseFloat(savedMusicVolume);
-            if (!isNaN(parsed)) musicVolume = parsed; else musicVolume = 0.5;
+            musicVolume = !isNaN(parsed) ? parsed : 0.5;
         }
         if (mainMusicPlayer) mainMusicPlayer.volume = musicVolume;
         if (musicVolumeSlider) musicVolumeSlider.value = musicVolume * 100;
@@ -157,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedClickVolume = localStorage.getItem('clickVolume');
         if (savedClickVolume !== null) {
             const parsed = parseFloat(savedClickVolume);
-            if (!isNaN(parsed)) clickVolume = parsed; else clickVolume = 1.0;
+            clickVolume = !isNaN(parsed) ? parsed : 1.0;
         }
         if (clickSound) clickSound.volume = clickVolume;
         if (clickVolumeSlider) clickVolumeSlider.value = clickVolume * 100;
@@ -174,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedTheme = localStorage.getItem('theme');
         isDarkMode = savedTheme === 'dark';
         applyTheme();
-        console.log("Settings loaded:", {isMusicEnabled, isClickSoundEnabled, musicVolume, clickVolume, currentSongIndex, isDarkMode});
     };
 
     const saveSettings = () => {
@@ -184,30 +171,26 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('clickVolume', clickVolume);
         localStorage.setItem('currentSongIndex', currentSongIndex);
         localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-        console.log("Settings saved");
     };
 
-    document.body.addEventListener('click', () => {
+    document.body.addEventListener('click', function initialInteractionHandler() {
         if (!hasUserInteracted) {
             console.log("Body clicked - first user interaction.");
             hasUserInteracted = true;
-            if (isMusicEnabled && mainMusicPlayer && mainMusicPlayer.paused) {
-                 console.log("Attempting to play music after first interaction.");
-                 attemptPlayMusic();
-            }
+            attemptPlayMusic();
+            document.body.removeEventListener('click', initialInteractionHandler);
         }
-    }, { once: true });
+    }, { capture: true, once: true });
+
 
     const clickableElements = document.querySelectorAll('.clickable-element');
     clickableElements.forEach(element => {
         element.addEventListener('click', (event) => {
             if (isClickSoundEnabled && clickSound && !event.target.closest('.custom-slider')) {
-                if (clickSound.readyState >= 2) { // HAVE_CURRENT_DATA or more
+                if (clickSound.readyState >= 2) {
                     clickSound.volume = clickVolume;
                     clickSound.currentTime = 0;
                     clickSound.play().catch(e => console.error("Click sound error:", e));
-                } else {
-                    console.warn("Click sound not ready to play.");
                 }
             }
         });
@@ -236,12 +219,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const handleHashChange = () => {
         const hash = window.location.hash;
-        console.log("Hash changed to:", hash);
         if (hash === '#settings') {
-            closeDiscordWidgetModal(false); // Close discord if settings is opened
+            closeDiscordWidgetModal(false);
             openSettingsModal();
         } else if (hash === '#discord-widget') {
-            closeSettingsModal(false); // Close settings if discord is opened
+            closeSettingsModal(false);
             openDiscordWidgetModal();
         } else {
             closeSettingsModal(false);
@@ -265,7 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.hash = '#settings';
         });
     }
-
     if (discordLinkNav) {
         discordLinkNav.addEventListener('click', (event) => {
             event.preventDefault();
@@ -278,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.hash = '#discord-widget';
         });
     }
-
 
     document.querySelectorAll('a.nav-link:not(#settings-link-nav):not(#discord-link-nav)[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -312,16 +292,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (musicToggleButton && mainMusicPlayer && musicToggleImg) {
         musicToggleButton.addEventListener('click', () => {
             isMusicEnabled = !isMusicEnabled;
-            console.log("Music toggle clicked. isMusicEnabled:", isMusicEnabled);
             setToggleImageSrc(musicToggleImg, isMusicEnabled, generalToggleImages.on, generalToggleImages.off);
             if (isMusicEnabled) {
                 if (!hasUserInteracted) hasUserInteracted = true;
-                if (mainMusicPlayer.paused) {
-                     console.log("Music toggled ON, attempting to play/resume.");
-                     attemptPlayMusic();
-                }
+                attemptPlayMusic();
             } else {
-                console.log("Music toggled OFF, pausing.");
                 mainMusicPlayer.pause();
             }
             saveSettings();
@@ -381,7 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeToggleButton && themeToggleImg) {
         themeToggleButton.addEventListener('click', () => {
             isDarkMode = !isDarkMode;
-            console.log("Theme toggle clicked. isDarkMode:", isDarkMode);
             applyTheme();
             saveSettings();
         });
