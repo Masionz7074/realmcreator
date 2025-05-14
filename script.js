@@ -59,27 +59,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const attemptPlayMusic = () => {
         if (isMusicEnabled && hasUserInteracted && mainMusicPlayer && mainMusicPlayer.src && mainMusicPlayer.paused) {
-            console.log("Attempting to play:", mainMusicPlayer.src);
             const playPromise = mainMusicPlayer.play();
             if (playPromise !== undefined) {
-                playPromise.catch(e => console.error("Error in attemptPlayMusic:", e));
+                playPromise.catch(e => console.error(`Error playing song ${mainMusicPlayer.src}:`, e));
             }
-        } else {
-            console.log("Not playing music. Reason:", {isMusicEnabled, hasUserInteracted, src:mainMusicPlayer ? mainMusicPlayer.src : 'no player', paused: mainMusicPlayer ? mainMusicPlayer.paused : 'no player'});
         }
     };
 
-    const loadSong = (index, playImmediately = false) => {
+
+    const loadSong = (index, playWhenReady = false) => {
         if (!mainMusicPlayer || !songPlaylist || !songPlaylist[index]) {
-            console.error("Player or playlist not ready for loadSong.");
             return;
         }
-        console.log(`Loading song index: ${index}, Name: ${songPlaylist[index].name}, Play: ${playImmediately}`);
         mainMusicPlayer.src = songPlaylist[index].src;
         updateSongNameDisplay();
         mainMusicPlayer.volume = musicVolume;
 
-        if (playImmediately) {
+        if (playWhenReady) {
             attemptPlayMusic();
         }
     };
@@ -104,6 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         mainMusicPlayer.addEventListener('error', (e) => {
             console.error("Audio Player Error on element:", e, mainMusicPlayer.error);
+        });
+        mainMusicPlayer.addEventListener('canplaythrough', () => {
+             if (isMusicEnabled && hasUserInteracted && mainMusicPlayer.paused && mainMusicPlayer.src === songPlaylist[currentSongIndex].src && document.visibilityState === 'visible') {
+                attemptPlayMusic();
+             }
         });
     }
 
@@ -175,10 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.body.addEventListener('click', function initialInteractionHandler() {
         if (!hasUserInteracted) {
-            console.log("Body clicked - first user interaction.");
             hasUserInteracted = true;
             attemptPlayMusic();
-            document.body.removeEventListener('click', initialInteractionHandler);
+            document.body.removeEventListener('click', initialInteractionHandler, { capture: true });
         }
     }, { capture: true, once: true });
 
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setToggleImageSrc(musicToggleImg, isMusicEnabled, generalToggleImages.on, generalToggleImages.off);
             if (isMusicEnabled) {
                 if (!hasUserInteracted) hasUserInteracted = true;
-                attemptPlayMusic();
+                 attemptPlayMusic();
             } else {
                 mainMusicPlayer.pause();
             }
