@@ -16,11 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const prevSongButton = document.getElementById('prev-song');
     const nextSongButton = document.getElementById('next-song');
-    // Play/Pause button was removed
     const currentSongNameDisplay = document.getElementById('current-song-name');
 
     const themeToggleButton = document.getElementById('theme-toggle-button');
     const themeToggleImg = document.getElementById('theme-toggle-img');
+
+    // Discord Widget Elements
+    const discordLinkNav = document.getElementById('discord-link-nav');
+    const discordButtonHero = document.getElementById('discord-button-hero');
+    const discordWidgetModal = document.getElementById('discord-widget-modal');
+    const closeDiscordWidgetButton = document.getElementById('close-discord-widget');
+
 
     const songPlaylist = [
         { src: 'sounds/mainmenu.mp3', name: 'Minecraft Music' },
@@ -51,20 +57,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const attemptPlayMusic = () => {
+        if (isMusicEnabled && hasUserInteracted && mainMusicPlayer && mainMusicPlayer.paused) {
+            console.log("Attempting to play current song:", songPlaylist[currentSongIndex].name);
+            const playPromise = mainMusicPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(e => {
+                    console.error(`Error playing song ${mainMusicPlayer.src}:`, e);
+                });
+            }
+        } else {
+            console.log("Conditions not met for playing music:", {isMusicEnabled, hasUserInteracted, paused: mainMusicPlayer ? mainMusicPlayer.paused : 'no player'});
+        }
+    };
+
+
     const loadSong = (index, playWhenReady = false) => {
-        console.log(`Loading song index: ${index}, playWhenReady: ${playWhenReady}, isMusicEnabled: ${isMusicEnabled}, hasUserInteracted: ${hasUserInteracted}`);
+        console.log(`Loading song index: ${index}, Name: ${songPlaylist[index] ? songPlaylist[index].name : 'N/A'}`);
         if (mainMusicPlayer && songPlaylist && songPlaylist[index]) {
             mainMusicPlayer.src = songPlaylist[index].src;
             mainMusicPlayer.volume = musicVolume;
             updateSongNameDisplay();
-            if (playWhenReady && isMusicEnabled && hasUserInteracted) {
-                const playPromise = mainMusicPlayer.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(e => console.error("Error playing loaded song:", e));
-                }
+            if (playWhenReady) {
+                attemptPlayMusic();
             }
         } else {
-            console.error("Failed to load song: Player or playlist issue.");
+            console.error("Failed to load song: Player, playlist, or index issue.");
         }
     };
 
@@ -86,21 +104,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mainMusicPlayer) {
         mainMusicPlayer.addEventListener('ended', () => {
-            console.log("Song ended");
+            console.log("Song ended, playing next if enabled.");
             if (isMusicEnabled) playNextSong();
         });
         mainMusicPlayer.addEventListener('error', (e) => {
-            console.error("Audio Player Error:", e, mainMusicPlayer.error);
+            console.error("Audio Player Error:", mainMusicPlayer.error, e);
         });
         mainMusicPlayer.addEventListener('canplaythrough', () => {
-            console.log(`Song ${mainMusicPlayer.src} can play through.`);
+             console.log(`Song ${mainMusicPlayer.src} can play through. Attempting play if conditions met.`);
+             if (isMusicEnabled && hasUserInteracted && mainMusicPlayer.paused && mainMusicPlayer.src === songPlaylist[currentSongIndex].src) {
+                attemptPlayMusic();
+             }
         });
-
     }
 
     if (prevSongButton) prevSongButton.addEventListener('click', playPrevSong);
     if (nextSongButton) nextSongButton.addEventListener('click', playNextSong);
-
 
     const setToggleImageSrc = (imgElement, isEnabled, onImg, offImg) => {
         if (!imgElement) return;
@@ -153,11 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadSong(currentSongIndex, false);
 
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            isDarkMode = true;
-        } else {
-            isDarkMode = false;
-        }
+        isDarkMode = savedTheme === 'dark';
         applyTheme();
         console.log("Settings loaded:", {isMusicEnabled, isClickSoundEnabled, musicVolume, clickVolume, currentSongIndex, isDarkMode});
     };
@@ -178,10 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hasUserInteracted = true;
             if (isMusicEnabled && mainMusicPlayer && mainMusicPlayer.paused) {
                  console.log("Attempting to play music after first interaction.");
-                 const playPromise = mainMusicPlayer.play();
-                 if (playPromise !== undefined) {
-                    playPromise.catch(e => console.error("Initial music play error (body click):", e));
-                 }
+                 attemptPlayMusic();
             }
         }
     }, { once: true });
@@ -190,9 +202,13 @@ document.addEventListener('DOMContentLoaded', () => {
     clickableElements.forEach(element => {
         element.addEventListener('click', (event) => {
             if (isClickSoundEnabled && clickSound && !event.target.closest('.custom-slider')) {
-                clickSound.volume = clickVolume;
-                clickSound.currentTime = 0;
-                clickSound.play().catch(e => console.error("Click sound error:", e));
+                if (clickSound.readyState >= 2) { // HAVE_CURRENT_DATA or more
+                    clickSound.volume = clickVolume;
+                    clickSound.currentTime = 0;
+                    clickSound.play().catch(e => console.error("Click sound error:", e));
+                } else {
+                    console.warn("Click sound not ready to play.");
+                }
             }
         });
     });
@@ -207,13 +223,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const openDiscordWidgetModal = () => {
+        if (discordWidgetModal) discordWidgetModal.style.display = 'flex';
+    };
+    const closeDiscordWidgetModal = (updateHash = true) => {
+        if (discordWidgetModal) discordWidgetModal.style.display = 'none';
+        if (updateHash && window.location.hash === '#discord-widget') {
+             history.pushState("", document.title, window.location.pathname + window.location.search);
+        }
+    };
+
+
     const handleHashChange = () => {
         const hash = window.location.hash;
         console.log("Hash changed to:", hash);
         if (hash === '#settings') {
+            closeDiscordWidgetModal(false); // Close discord if settings is opened
             openSettingsModal();
+        } else if (hash === '#discord-widget') {
+            closeSettingsModal(false); // Close settings if discord is opened
+            openDiscordWidgetModal();
         } else {
             closeSettingsModal(false);
+            closeDiscordWidgetModal(false);
             let targetId = hash.substring(1);
             if (targetId === '' || targetId === 'home') targetId = 'home';
             const targetSection = document.getElementById(targetId);
@@ -234,10 +266,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.querySelectorAll('a.nav-link[href^="#"]').forEach(anchor => {
+    if (discordLinkNav) {
+        discordLinkNav.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.hash = '#discord-widget';
+        });
+    }
+    if (discordButtonHero) {
+        discordButtonHero.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.hash = '#discord-widget';
+        });
+    }
+
+
+    document.querySelectorAll('a.nav-link:not(#settings-link-nav):not(#discord-link-nav)[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
-            if (href.startsWith("#") && href !== "#settings" && href !== "#") {
+            if (href.startsWith("#") && href !== "#") {
                 e.preventDefault();
                 window.location.hash = href;
             } else if (href === "#") {
@@ -255,6 +301,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (closeDiscordWidgetButton) closeDiscordWidgetButton.addEventListener('click', () => closeDiscordWidgetModal());
+    if (discordWidgetModal) {
+        discordWidgetModal.addEventListener('click', (event) => {
+            if (event.target === discordWidgetModal) closeDiscordWidgetModal();
+        });
+    }
+
+
     if (musicToggleButton && mainMusicPlayer && musicToggleImg) {
         musicToggleButton.addEventListener('click', () => {
             isMusicEnabled = !isMusicEnabled;
@@ -264,10 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!hasUserInteracted) hasUserInteracted = true;
                 if (mainMusicPlayer.paused) {
                      console.log("Music toggled ON, attempting to play/resume.");
-                     const playPromise = mainMusicPlayer.play();
-                     if(playPromise !== undefined) {
-                        playPromise.catch(e => console.error("Error resuming/playing music from toggle:", e));
-                     }
+                     attemptPlayMusic();
                 }
             } else {
                 console.log("Music toggled OFF, pausing.");
@@ -295,9 +346,11 @@ document.addEventListener('DOMContentLoaded', () => {
             isClickSoundEnabled = !isClickSoundEnabled;
             setToggleImageSrc(clickToggleImg, isClickSoundEnabled, generalToggleImages.on, generalToggleImages.off);
             if (isClickSoundEnabled) {
-                clickSound.volume = clickVolume;
-                clickSound.currentTime = 0;
-                clickSound.play().catch(e => console.error("Click sound on toggle error:", e));
+                if (clickSound.readyState >= 2) {
+                    clickSound.volume = clickVolume;
+                    clickSound.currentTime = 0;
+                    clickSound.play().catch(e => console.error("Click sound on toggle error:", e));
+                }
             }
             saveSettings();
         });
@@ -314,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         clickVolumeSlider.addEventListener('change', (event) => {
             clickVolume = event.target.value / 100;
-            if (isClickSoundEnabled && clickSound) {
+            if (isClickSoundEnabled && clickSound && clickSound.readyState >= 2) {
                 clickSound.volume = clickVolume;
                 clickSound.currentTime = 0;
                 clickSound.play().catch(e => console.error("Click sound on slider change error:", e));
@@ -335,5 +388,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     loadSettings();
-    handleHashChange(); // Call on initial load to handle initial hash (e.g. #settings)
+    handleHashChange();
 });
