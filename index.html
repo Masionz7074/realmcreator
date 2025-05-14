@@ -20,7 +20,8 @@
                 <ul>
                     <li><a href="#home" class="nav-link clickable-element">Home</a></li>
                     <li><a href="#download" class="nav-link clickable-element">Download</a></li>
-                    <li><a href="https://discord.gg/nYfHty2AWp" class="nav-link clickable-element" target="_blank">Discord</a></li>
+                    <!-- Updated Discord link to trigger modal -->
+                    <li><a href="#discord-widget" class="nav-link clickable-element" id="discord-link-nav">Discord</a></li>
                     <li><a href="#settings" class="nav-link clickable-element" id="settings-link-nav">Settings</a></li>
                     <li class="theme-toggle-container">
                         <button id="theme-toggle-button" class="clickable-element">
@@ -38,7 +39,8 @@
             <p>is the most powerful, customizable, useful and free Texture Pack available on the majority of platforms!</p>
             <div class="buttons">
                 <a href="#download" class="button download-button clickable-element">Download</a>
-                <a href="https://discord.gg/nYfHty2AWp" class="button discord-button clickable-element" target="_blank">Discord</a>
+                <!-- Updated Discord button to trigger modal -->
+                <a href="#discord-widget" class="button discord-button clickable-element" id="discord-button-hero">Discord</a>
             </div>
         </div>
     </section>
@@ -105,7 +107,7 @@
             <div class="video-wrapper">
                 <div class="video-container">
                     <iframe
-                        src="https://www.youtube.com/embed/BWrBM75ptdE" <!-- UPDATED VIDEO ID HERE -->
+                        src="https://www.youtube.com/embed/BWrBM75ptdE"
                         title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -128,6 +130,7 @@
          <div class="scrollbar-handle"></div>
     </div>
 
+    <!-- Settings Modal -->
     <div id="settings-modal" class="modal-overlay">
         <div class="modal-content">
             <h3>Settings</h3>
@@ -152,6 +155,19 @@
                 <input type="range" id="click-volume" min="0" max="100" value="100" class="custom-slider clickable-element">
             </div>
             <button id="close-settings" class="button clickable-element">Close</button>
+        </div>
+    </div>
+
+    <!-- Discord Widget Modal -->
+    <div id="discord-widget-modal" class="modal-overlay">
+        <div class="discord-widget-content">
+            <button id="close-discord-widget" class="close-modal-button clickable-element">X</button>
+            <!--
+                IMPORTANT: Replace the entire iframe below with the
+                Pre-made Widget iframe code from YOUR Discord Server Settings.
+                Make sure to enable the widget in your server settings first!
+            -->
+            <iframe src="https://discord.com/widget?id=1371326607796736101&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
         </div>
     </div>
 
