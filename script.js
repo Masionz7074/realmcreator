@@ -177,8 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', function initialInteractionHandler() {
         if (!hasUserInteracted) {
             hasUserInteracted = true;
-            attemptPlayMusic();
-            document.body.removeEventListener('click', initialInteractionHandler, { capture: true });
+            if(isMusicEnabled && mainMusicPlayer && mainMusicPlayer.src) {
+                attemptPlayMusic();
+            }
         }
     }, { capture: true, once: true });
 
@@ -229,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             closeSettingsModal(false);
             closeDiscordWidgetModal(false);
             let targetId = hash.substring(1);
-            if (targetId === '' || targetId === 'home') targetId = 'home';
+            if (targetId === '' || targetId === '#') targetId = 'home';
             const targetSection = document.getElementById(targetId);
             if (targetSection) {
                  setTimeout(() => {
@@ -247,26 +248,27 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.hash = '#settings';
         });
     }
+
     if (discordLinkNav) {
         discordLinkNav.addEventListener('click', (event) => {
             event.preventDefault();
-            window.location.hash = '#discord-widget';
+            openDiscordWidgetModal();
         });
     }
     if (discordButtonHero) {
         discordButtonHero.addEventListener('click', (event) => {
             event.preventDefault();
-            window.location.hash = '#discord-widget';
+            openDiscordWidgetModal();
         });
     }
 
     document.querySelectorAll('a.nav-link:not(#settings-link-nav):not(#discord-link-nav)[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
-            if (href.startsWith("#") && href !== "#") {
+            if (href.startsWith("#") && href.length > 1) {
                 e.preventDefault();
                 window.location.hash = href;
-            } else if (href === "#") {
+            } else if (href === "#" || href === "#home") {
                 e.preventDefault();
                 window.location.hash = "#home";
             }
@@ -307,7 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
         musicVolumeSlider.addEventListener('input', (event) => {
             musicVolume = event.target.value / 100;
             mainMusicPlayer.volume = musicVolume;
-            saveSettings();
         });
         musicVolumeSlider.addEventListener('change', (event) => {
             musicVolume = event.target.value / 100;
@@ -321,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isClickSoundEnabled = !isClickSoundEnabled;
             setToggleImageSrc(clickToggleImg, isClickSoundEnabled, generalToggleImages.on, generalToggleImages.off);
             if (isClickSoundEnabled) {
-                if (clickSound.readyState >= 2) {
+                 if (clickSound.readyState >= 2) {
                     clickSound.volume = clickVolume;
                     clickSound.currentTime = 0;
                     clickSound.play().catch(e => console.error("Click sound on toggle error:", e));
@@ -338,7 +339,6 @@ document.addEventListener('DOMContentLoaded', () => {
         clickVolumeSlider.addEventListener('input', (event) => {
             clickVolume = event.target.value / 100;
             if (clickSound) clickSound.volume = clickVolume;
-            saveSettings();
         });
         clickVolumeSlider.addEventListener('change', (event) => {
             clickVolume = event.target.value / 100;
