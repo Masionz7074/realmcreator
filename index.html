@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realm Creator</title>
+    <link rel="icon" href="image/favicon.png" type="image/png"> {/* FAVICON ADDED HERE */}
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,7 +21,8 @@
                 <ul>
                     <li><a href="#home" class="nav-link clickable-element">Home</a></li>
                     <li><a href="#download" class="nav-link clickable-element">Download</a></li>
-                    <li><a href="#discord-widget" class="nav-link clickable-element" id="discord-link-nav">Discord</a></li>
+                    {/* Changed href to # for direct JS handling */}
+                    <li><a href="#" class="nav-link clickable-element" id="discord-link-nav">Discord</a></li>
                     <li><a href="#settings" class="nav-link clickable-element" id="settings-link-nav">Settings</a></li>
                     <li class="theme-toggle-container">
                         <button id="theme-toggle-button" class="clickable-element">
@@ -38,12 +40,30 @@
             <p>is the most powerful, customizable, useful and free Texture Pack available on the majority of platforms!</p>
             <div class="buttons">
                 <a href="#download" class="button download-button clickable-element">Download</a>
-                <a href="#discord-widget" class="button discord-button clickable-element" id="discord-button-hero">Discord</a>
+                {/* Changed href to # for direct JS handling */}
+                <a href="#" class="button discord-button clickable-element" id="discord-button-hero">Discord</a>
+            </div>
+
+            {/* VIDEO SHOWCASE MOVED HERE */}
+            <div class="home-video-showcase">
+                <h2>Video Showcase</h2>
+                <div class="video-wrapper">
+                    <div class="video-container">
+                        <iframe
+                            src="https://www.youtube.com/embed/BWrBM75ptdE"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="features" class="features-section background2 section-separator-target">
+    {/* ID changed from features to download */}
+    <section id="download" class="features-section background2 section-separator-target">
         <div class="section-content">
             <div class="features-container">
                 <div class="feature-pair blue">
@@ -62,60 +82,50 @@
         </div>
     </section>
 
+    {/* This section was for video, now empty or can be repurposed/removed if video is only on home */}
+    {/* <section id="video-showcase" class="video-section background1"></section> */}
+    {/* If you don't need an empty section, you can remove the above line. */}
+
+
+    {/* CREATORS SECTION MOVED TO THE BOTTOM (before footer) */}
     <section id="creators" class="creators-section background3 section-separator-target">
         <div class="section-content centered-content">
             <h2>CREATORS</h2>
             <div class="creators-list">
-                <div class="creator-card">
+                {/* ADD data-contact with actual info */}
+                <div class="creator-card" data-contact="Discord: Midful#0001">
                     <img src="image/ambro_head.png" alt="Midful the cat's Head">
                     <h3>Midful the cat</h3>
-                    <ul>
-                        <li>. Realm Creator Founder</li>
-                        <li>. Creator of Discord</li>
-                    </ul>
+                    <p>Original Realm Creator Founder.</p>
+                    <div class="creator-contact-popup">Discord: Midful#0001</div>
                 </div>
-                 <div class="creator-card">
+                <div class="creator-card" data-contact="Discord: Muskiei#0002">
                     <img src="image/idkrad_head.png" alt="Muskiei's Head">
                     <h3>Muskiei</h3>
-                    <ul>
-                        <li>. Website Maker</li>
-                    </ul>
+                    <p>Made the website.</p>
+                    <div class="creator-contact-popup">Discord: Muskiei#0002</div>
                 </div>
-                 <div class="creator-card">
+                 <div class="creator-card" data-contact="Discord: Kitty#0003">
                     <img src="image/kitty.png" alt="Founder Kitty's Head">
                     <h3>Founder Kitty</h3>
-                    <ul>
-                         <li>. Founder</li>
-                    </ul>
+                    <p>One of the founders.</p>
+                    <div class="creator-contact-popup">Discord: Kitty#0003</div>
                 </div>
-                <div class="creator-card">
+                <div class="creator-card" data-contact="Discord: Trashy#0004">
                     <img src="image/trashy.png" alt="Trashy's Head">
                     <h3>Trashy</h3>
-                    <ul>
-                         <li>. Founder</li>
-                    </ul>
+                    <p>One of the founders.</p>
+                    <div class="creator-contact-popup">Discord: Trashy#0004</div>
+                </div>
+                <div class="creator-card" data-contact="Discord: Spino#0005"> {/* NEW CREATOR */}
+                    <img src="image/sino.png" alt="Spino's Head"> {/* Ensure sino.png exists in image/ */}
+                    <h3>Spino</h3>
+                    <p>Owner of Realm Creator.</p>
+                    <div class="creator-contact-popup">Discord: Spino#0005</div>
                 </div>
             </div>
         </div>
     </section>
-
-    <section id="video-showcase" class="video-section background1">
-        <div class="section-content centered-content">
-            <h2>Video Showcase</h2>
-            <div class="video-wrapper">
-                <div class="video-container">
-                    <iframe
-                        src="https://www.youtube.com/embed/BWrBM75ptdE"
-                        title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-
 
     <footer>
         <div class="footer-content">
