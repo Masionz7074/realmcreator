@@ -1,170 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Realm Creator</title>
-    <link rel="icon" href="image/realm_creator_logo.png" type="image/png">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <header>
-        <div class="header-container">
-            <div class="logo">Realm Creator</div>
-            <div class="music-player-controls">
-                <button id="prev-song" class="clickable-element player-button-img"><img src="image/switch_dpad_left.png" alt="Previous Song"></button>
-                <button id="next-song" class="clickable-element player-button-img"><img src="image/switch_dpad_right.png" alt="Next Song"></button>
-                <span id="current-song-name"></span>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#home" class="nav-link clickable-element">Home</a></li>
-                    <li><a href="#download" class="nav-link clickable-element">Download</a></li>
-                    <li><a href="#" class="nav-link clickable-element" id="discord-link-nav">Discord</a></li>
-                    <li><a href="#settings" class="nav-link clickable-element" id="settings-link-nav">Settings</a></li>
-                    <li class="theme-toggle-container">
-                        <button id="theme-toggle-button" class="clickable-element">
-                            <img id="theme-toggle-img" src="image/toggle_off_dark.png" alt="Toggle Theme">
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <section id="home" class="hero-section background1 section-separator-target">
-        <div class="section-content centered-content">
-            <img src="image/realmbanner.png" alt="Realm Creator Banner" class="realm-banner">
-            <p>is the most powerful, customizable, useful and free Texture Pack available on the majority of platforms!</p>
-            <div class="buttons">
-                <a href="#download" class="button download-button clickable-element">Download</a>
-                <a href="#" class="button discord-button clickable-element" id="discord-button-hero">Discord</a>
-            </div>
-
-            <div class="home-video-showcase">
-                <h2>Video Showcase</h2>
-                <div class="video-wrapper">
-                    <div class="video-container">
-                        <iframe
-                            src="https://www.youtube.com/embed/BWrBM75ptdE"
-                            title="YouTube video player"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="download" class="features-section background2 section-separator-target">
-        <div class="section-content">
-            <div class="features-container">
-                <div class="feature-pair blue">
-                    <img src="image/realm_database_logo.png" alt="Realm Database Logo">
-                    <div class="feature-text">
-                        <p><strong>REALM DATABASE</strong> IS A DATABASE BOT KEEPING EXPLOITERS AND HACKERS AND NUKERS AWAY</p>
-                    </div>
-                </div>
-                <div class="feature-pair purple">
-                    <img src="image/realm_creator_logo.png" alt="Realm Creator Logo">
-                    <div class="feature-text">
-                        <p><strong>REALM CREATOR</strong> IS WHERE YOU CAN GET PUBLIC AND BUY ADDONS AND TEXURE PACKS ALL FOR YOUR REALM</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
     <section id="creators" class="creators-section background3 section-separator-target">
         <div class="section-content centered-content">
             <h2>CREATORS</h2>
             <div class="creators-list">
-                <div class="creator-card" data-contact="Discord: Midful#0001">
+                <div class="creator-card" data-contact="Discord: midful_">
                     <img src="image/ambro_head.png" alt="Midful the cat's Head">
                     <h3>Midful the cat</h3>
                     <p>Original Realm Creator Founder.</p>
-                    <div class="creator-contact-popup">Discord: Midful#0001</div>
+                    <div class="creator-contact-popup">Discord: midful_</div>
                 </div>
-                <div class="creator-card" data-contact="Discord: Muskiei#0002">
+                <div class="creator-card" data-contact="Discord: muskiei">
                     <img src="image/idkrad_head.png" alt="Muskiei's Head">
                     <h3>Muskiei</h3>
                     <p>Made the website.</p>
-                    <div class="creator-contact-popup">Discord: Muskiei#0002</div>
+                    <div class="creator-contact-popup">Discord: muskiei</div>
                 </div>
-                 <div class="creator-card" data-contact="Discord: Kitty#0003">
+                 <div class="creator-card" data-contact="Discord: Kitty#0003"> {/* Assuming Kitty's info remains placeholder or you provide it */}
                     <img src="image/kitty.png" alt="Founder Kitty's Head">
                     <h3>Founder Kitty</h3>
                     <p>One of the founders.</p>
                     <div class="creator-contact-popup">Discord: Kitty#0003</div>
                 </div>
-                <div class="creator-card" data-contact="Discord: Trashy#0004">
+                <div class="creator-card" data-contact="Discord: trashydafox">
                     <img src="image/trashy.png" alt="Trashy's Head">
                     <h3>Trashy</h3>
                     <p>One of the founders.</p>
-                    <div class="creator-contact-popup">Discord: Trashy#0004</div>
+                    <div class="creator-contact-popup">Discord: trashydafox</div>
                 </div>
-                <div class="creator-card" data-contact="Discord: Spino#0005">
+                <div class="creator-card" data-contact="Discord: spinogodalt">
                     <img src="image/sino.png" alt="Spino's Head">
                     <h3>Spino</h3>
                     <p>Owner of Realm Creator.</p>
-                    <div class="creator-contact-popup">Discord: Spino#0005</div>
+                    <div class="creator-contact-popup">Discord: spinogodalt</div>
                 </div>
             </div>
         </div>
     </section>
-
-    <footer>
-        <div class="footer-content">
-            <p>Copyright © Realm Creator | All rights reserved | Not affiliated with Mojang Studios</p>
-        </div>
-    </footer>
-
-    <div class="custom-scrollbar">
-         <div class="scrollbar-track"></div>
-         <div class="scrollbar-handle"></div>
-    </div>
-
-    <div id="settings-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h3>Settings</h3>
-            <div class="setting-row">
-                <label for="music-toggle-button">Music:</label>
-                <button id="music-toggle-button" class="setting-toggle-button clickable-element">
-                    <img id="music-toggle-img" src="image/toggle_on.png" alt="Music Toggle">
-                </button>
-            </div>
-             <div class="setting-row">
-                <label for="music-volume">Music Volume:</label>
-                <input type="range" id="music-volume" min="0" max="100" value="50" class="custom-slider clickable-element">
-            </div>
-            <div class="setting-row">
-                <label for="click-toggle-button">Click Sound:</label>
-                <button id="click-toggle-button" class="setting-toggle-button clickable-element">
-                    <img id="click-toggle-img" src="image/toggle_on.png" alt="Click Sound Toggle">
-                </button>
-            </div>
-             <div class="setting-row">
-                <label for="click-volume">Click Volume:</label>
-                <input type="range" id="click-volume" min="0" max="100" value="100" class="custom-slider clickable-element">
-            </div>
-            <button id="close-settings" class="button clickable-element">Close</button>
-        </div>
-    </div>
-
-    <div id="discord-widget-modal" class="modal-overlay">
-        <div class="discord-widget-content">
-            <button id="close-discord-widget" class="close-modal-button clickable-element">X</button>
-            <iframe src="https://discord.com/widget?id=1371326607796736101&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-        </div>
-    </div>
-
-    <audio id="main-music-player" preload="auto"></audio>
-    <audio id="minecraft-click" src="sounds/minecraftclick.mp3" preload="auto"></audio>
-
-    <script src="script.js"></script>
-</body>
-</html>
